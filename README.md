@@ -1,4 +1,4 @@
-# InvisibleDetector 🔍
+# InvisibleDetector 
 
 ## Файлы
 
