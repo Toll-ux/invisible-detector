@@ -56,6 +56,16 @@
       white-space: pre-wrap; word-break: break-word;
       min-height: 60px; max-height: 180px; overflow-y: auto;
     }
+    .result-box::-webkit-scrollbar {width: 6px;}
+    .result-box::-webkit-scrollbar-track {background: var(--surface); border-radius: 10px;}
+    .result-box::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 10px;
+      transition: background 0.2s;
+    }
+    .result-box::-webkit-scrollbar-thumb:hover {background: rgba(255, 255, 255, 0.2);}
     mark.hi-red  { background: rgba(232,65,122,.22); color: #f589a8; border-radius: 3px; font-family: var(--font-mono); font-size: 11px; padding: 0 3px; }
     mark.hi-warn { background: rgba(245,158,11,.18);  color: #fbc96a; border-radius: 3px; font-family: var(--font-mono); font-size: 11px; padding: 0 3px; }
     mark.hi-gray { background: var(--surface); color: var(--text2); border-radius: 3px; font-family: var(--font-mono); font-size: 11px; padding: 0 3px; }
@@ -83,6 +93,13 @@
       <div class="btn-row">
         <button class="btn" style="color:var(--text);border-color:rgba(232,65,122,.25)" onclick="loadSample()">Пример текста</button>
         <button class="btn" style="color:var(--accent);border-color:rgba(232,65,122,.25)" onclick="clearAll()">Очистить</button>
+        <button id="btnPaste" class="btn">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 5px; vertical-align: middle;">
+            <rect x="9" y="9" width="13" height="13" rx="2"/>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+          </svg>
+          Вставить
+        </button>
       </div>
     </div>
     <div class="editor-wrap">
@@ -94,7 +111,7 @@
     <div class="stat-grid">
       <div class="stat-card"><div class="stat-val c-purple" id="sTotal">0</div><div class="stat-lbl">Всего</div></div>
       <div class="stat-card"><div class="stat-val c-red"    id="sInvis">0</div><div class="stat-lbl">Невидимых</div></div>
-      <div class="stat-card"><div class="stat-val c-blue" id="sHidden">0</div><div class="stat-lbl">Спрятанных</div></div>
+      <div class="stat-card"><div class="stat-val c-blue"   id="sHidden">0</div><div class="stat-lbl">Спрятанных</div></div>
       <div class="stat-card"><div class="stat-val c-warn"   id="sTypes">0</div><div class="stat-lbl">Типов</div></div>
       <div class="stat-card"><div class="stat-val c-teal"   id="sClean">0</div><div class="stat-lbl">Чистых</div></div>
     </div>
@@ -210,10 +227,21 @@
     }
 
     async function doCopy() {
-      const clean = D.removeInvisible(currentText || '');
-      const ok = await D.copyToClipboard(clean);
+      const ok = await D.copyToClipboard(currentText || '');
       showToast(ok ? 'Скопировано!' : 'Не удалось скопировать', ok ? 'success' : 'error');
     }
+
+    document.getElementById('btnPaste').addEventListener('click', async () => {
+      try {
+        const text = await navigator.clipboard.readText();
+        const inputField = document.getElementById('inputBox');
+        inputField.value = text;
+        analyzeText(text);
+      } catch (err) {
+        console.error('Не удалось прочитать буфер обмена: ', err);
+        alert('Пожалуйста, разрешите доступ к буферу обмена в браузере.');
+      }
+    });
   </script>
 </body>
 </html>

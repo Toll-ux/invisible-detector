@@ -7,7 +7,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="74c206e4-6096-4ded-90ba-e03bcb0870ba" name="Changes" comment="Все наработки" />
+    <list default="true" id="74c206e4-6096-4ded-90ba-e03bcb0870ba" name="Changes" comment="Все наработки">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/decode.html" beforeDir="false" afterPath="$PROJECT_DIR$/decode.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/encode.html" beforeDir="false" afterPath="$PROJECT_DIR$/encode.html" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -38,12 +42,12 @@
     </excluded-from-favorite>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "Toll-ux"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;Toll-ux&quot;
   }
-}]]></component>
+}</component>
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/Toll-ux/invisible-detector&quot;,
@@ -108,7 +112,7 @@
       <updated>1776949170688</updated>
       <workItem from="1776949171829" duration="23535000" />
       <workItem from="1776977278250" duration="15174000" />
-      <workItem from="1777056424722" duration="11154000" />
+      <workItem from="1777056424722" duration="12857000" />
     </task>
     <task id="LOCAL-00001" summary="Все наработки">
       <option name="closed" value="true" />
