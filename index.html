@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ведьмочки с ключом на 9 — Детектор скрытых символов Unicode</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .hero { padding: 5rem 0 3rem; }
+    .hero-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .features { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; margin: 3rem 0; }
+    .feature-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem;
+      transition: border-color .2s;
+    }
+    .feature-card:hover { border-color: var(--border2); }
+    .feature-icon {
+      width: 44px; height: 44px; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 1rem; font-size: 20px;
+    }
+    .fi-red    { background: rgba(232,65,122,0.12); }
+    .fi-purple { background: rgba(124,92,252,0.12); }
+    .fi-teal   { background: rgba(62,207,176,0.12); }
+    .fi-warn   { background: rgba(245,158,11,0.12); }
+    .feature-card h3 { font-family: var(--font-display); font-size: 1rem; font-weight: 600; margin-bottom: .4rem; }
+    .feature-card p  { font-size: .9rem; color: var(--text2); line-height: 1.6; }
+    .demo-strip {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      margin: 2rem 0;
+      text-align: center;
+    }
+    .char-list {
+      display: flex; flex-wrap: wrap; gap: 8px;
+      justify-content: center; margin: 1.2rem 0;
+    }
+    .cta-banner {
+      background: linear-gradient(135deg, rgba(232,65,122,.12), rgba(124,92,252,.12));
+      border: 1px solid rgba(124,92,252,.2);
+      border-radius: var(--radius-lg);
+      padding: 2.5rem;
+      text-align: center;
+      margin-top: 3rem;
+    }
+    .cta-banner h2 { font-family: var(--font-display); font-size: 1.6rem; font-weight: 700; margin-bottom: .6rem; }
+    .cta-banner p  { color: var(--text2); margin-bottom: 1.5rem; }
+    @media(max-width:640px){ .features{grid-template-columns:1fr} }
+  </style>
+</head>
+<body>
+  <div id="nav-placeholder"></div>
+
+  <main>
+    <section class="hero">
+      <h1>Найди и удали <br> невидимые символы<br></h1>
+      <p>LLM вроде ChatGPT внедряют в текст скрытые символы Unicode. Наш детектор их найдёт, покажет и уберёт.</p>
+      <div class="hero-actions">
+        <a href="decode.html" class="btn btn-primary">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+          Открыть декодер
+        </a>
+        <a href="encode.html" class="btn btn-primary">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+          Открыть кодер
+        </a>
+        <a href="how-it-works.html" class="btn btn-ghost">Чушь какая-то надо сделать менее похожим на ии</a>
+      </div>
+    </section>
+
+    <div class="demo-strip">
+      <p style="font-size:.85rem;color:var(--text3);margin-bottom:.8rem;text-transform:uppercase;letter-spacing:.5px;font-weight:500">Обнаруживаем эти символы</p>
+      <div class="char-list">
+        <span class="tag tag-red">U+200B ZWSP</span>
+        <span class="tag tag-red">U+FEFF BOM</span>
+        <span class="tag tag-red">U+200D ZWJ</span>
+        <span class="tag tag-warn">U+00AD SHY</span>
+        <span class="tag tag-warn">U+00A0 NBSP</span>
+        <span class="tag tag-warn">U+2060 WJ</span>
+        <span class="tag tag-purple">U+2014 Em dash</span>
+        <span class="tag tag-purple">U+2013 En dash</span>
+        <span class="tag tag-gray">+ ещё 11 типов</span>
+      </div>
+    </div>
+
+  </main>
+
+  <script src="js/nav.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

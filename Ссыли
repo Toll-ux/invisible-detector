@@ -1,0 +1,25 @@
+Инструменты
+
+https://www.soscisurvey.de/tools/view-chars.php - сайтик, который находит unicode
+https://utf8-chartable.de/unicode-utf8-table.pl - Таблица кодировки UTF-8 и символы Unicode
+https://www.branah.com/unicode-converter - конвертер unicode
+https://originality.ai/blog/invisible-text-detector-remover - инструмент для поиска и удаления всех скрытых
+символов Юникода в вашем тексте
+https://emoji-encoder.vercel.app/?mode=encode - спрятать/расшифровать скрытые символы
+
+https://stegzero.com/ - еще один такой же кодер/декодер
+
+JavaScript library is below. по этой теме
+http://330k.github.io/misc_tools/unicode_steganography.js
+
+
+
+
+Статьи не читал, возможно полезные
+
+https://www.knime.com/blog/how-to-find-remove-invisible-unicode-characters - Невидимые символы Юникода:
+ как их найти и удалить.
+https://embracethered.com/blog/posts/2024/hiding-and-finding-text-with-unicode-tags/ -
+создание невидимого текста и расшифровка скрытого текста
+https://ijsrset.com/index.php/home/article/view/IJSRSET25121172/IJSRSET25121172 - про шифрование текста
+с помощью скрытых символов

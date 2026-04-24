@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Как работает — Ведьмочки с ключом на 9</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .step {
+      display: flex; gap: 1.5rem; align-items: flex-start;
+      padding: 1.5rem; background: var(--bg2);
+      border: 1px solid var(--border); border-radius: var(--radius-lg);
+      margin-bottom: 12px; transition: border-color .2s;
+    }
+    .step:hover { border-color: var(--border2); }
+    .step-num {
+      flex-shrink: 0; width: 36px; height: 36px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-display); font-weight: 700; font-size: 15px;
+    }
+    .sn-red    { background: rgba(232,65,122,.15); color: var(--accent); }
+    .sn-purple { background: rgba(124,92,252,.15); color: #a88cff; }
+    .sn-teal   { background: rgba(62,207,176,.15); color: var(--accent3); }
+    .sn-warn   { background: rgba(245,158,11,.15);  color: var(--warn); }
+    .step h3 { font-family: var(--font-display); font-size: 1.05rem; font-weight: 600; margin-bottom: .3rem; }
+    .step p  { font-size: .9rem; color: var(--text2); line-height: 1.7; }
+    .char-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    .char-table th {
+      text-align: left; padding: 10px 12px;
+      background: var(--surface); color: var(--text3);
+      font-weight: 500; font-size: 11px; letter-spacing: .4px; text-transform: uppercase;
+    }
+    .char-table th:first-child { border-radius: 8px 0 0 8px; }
+    .char-table th:last-child  { border-radius: 0 8px 8px 0; }
+    .char-table td { padding: 10px 12px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+    .char-table tr:last-child td { border-bottom: none; }
+    .char-table tr:hover td { background: var(--bg3); }
+  </style>
+</head>
+<body>
+  <div id="nav-placeholder"></div>
+  <main>
+    <h1 style="font-family:var(--font-display);font-size:2rem;font-weight:800;letter-spacing:-.5px;margin-bottom:.4rem">Переделать полностью</h1>
+    <p style="color:var(--text2);margin-bottom:2.5rem">Разбираем механизм обнаружения по шагам</p>
+
+    <section style="margin-bottom:3rem">
+      <h2 class="section-title">Зачем нужен детектор?</h2>
+      <p class="section-sub">Почему в текстах от LLM появляются скрытые символы</p>
+      <div class="card" style="margin-bottom:1rem">
+        <p style="font-size:.95rem;line-height:1.8;color:var(--text2)">
+          Языковые модели (ChatGPT, Claude, Gemini и др.) иногда включают в ответы невидимые символы Unicode —
+          нулевые пробелы, мягкие переносы, соединители. Эти символы <strong style="color:var(--text)">не видны</strong> на экране,
+          но присутствуют в тексте: они могут ломать поиск, нарушать парсинг, служить для скрытой
+          пометки контента или просто засорять данные.
+        </p>
+      </div>
+      <div class="alert alert-info">
+        💡 Пример: строка «привет» может содержать U+200B между буквами и выглядеть нормально, но при сравнении с «привет» — не совпадёт.
+      </div>
+    </section>
+
+    <section style="margin-bottom:3rem">
+      <h2 class="section-title">Алгоритм за 4 шага</h2>
+      <p class="section-sub">Что происходит когда вы нажимаете «Анализировать»</p>
+
+      <div class="step">
+        <div class="step-num sn-red">1</div>
+        <div>
+          <h3>Получить текст</h3>
+          <p>Текст из <code>textarea</code> считывается как JavaScript-строка. Каждый символ в JS — это кодовая единица UTF-16.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num sn-purple">2</div>
+        <div>
+          <h3>Сравнить каждый символ с таблицей</h3>
+          <p>Перебираем символы через <code>for...of</code> (он корректно обрабатывает суррогатные пары). Сравниваем с 19 записями в таблице невидимых символов.</p>
+          <pre>for (const ch of text) {
+  const sym = TABLE.find(s => s.char === ch);
+  if (sym) found[sym.code] = (found[sym.code] || 0) + 1;
+}</pre>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num sn-teal">3</div>
+        <div>
+          <h3>Построить результат</h3>
+          <p>Формируем объект со статистикой: сколько символов всего, сколько невидимых, каких типов и сколько раз каждый встретился.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num sn-warn">4</div>
+        <div>
+          <h3>Отобразить в интерфейсе</h3>
+          <p>Для подсветки строим HTML: обычные символы вставляем как есть, невидимые оборачиваем в <code>&lt;mark&gt;</code> с тултипом кода.</p>
+        </div>
+      </div>
+    </section>
+
+    <section style="margin-bottom:3rem">
+      <h2 class="section-title">Таблица символов</h2>
+      <p class="section-sub">19 типов скрытых символов, которые мы ищем</p>
+      <div class="card" style="padding:0;overflow:hidden">
+        <table class="char-table">
+          <thead>
+            <tr>
+              <th>Код</th>
+              <th>Название</th>
+              <th>Опасность</th>
+              <th>Источник</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td><code>U+200B</code></td><td>Нулевой пробел (ZWSP)</td><td><span class="tag tag-red">Высокая</span></td><td>LLM, копипаст</td></tr>
+            <tr><td><code>U+FEFF</code></td><td>Метка порядка байт (BOM)</td><td><span class="tag tag-red">Высокая</span></td><td>Редакторы, LLM</td></tr>
+            <tr><td><code>U+200D</code></td><td>Соединитель нулевой ширины</td><td><span class="tag tag-red">Высокая</span></td><td>LLM, эмодзи</td></tr>
+            <tr><td><code>U+200C</code></td><td>Объединитель нулевой ширины</td><td><span class="tag tag-red">Высокая</span></td><td>LLM</td></tr>
+            <tr><td><code>U+00A0</code></td><td>Неразрывный пробел</td><td><span class="tag tag-warn">Средняя</span></td><td>Word, HTML</td></tr>
+            <tr><td><code>U+00AD</code></td><td>Мягкий перенос (SHY)</td><td><span class="tag tag-warn">Средняя</span></td><td>Текстовые редакторы</td></tr>
+            <tr><td><code>U+2014</code></td><td>Длинное тире (Em dash)</td><td><span class="tag tag-purple">Низкая</span></td><td>LLM (очень часто)</td></tr>
+            <tr><td><code>U+2013</code></td><td>Среднее тире (En dash)</td><td><span class="tag tag-purple">Низкая</span></td><td>LLM, типографика</td></tr>
+            <tr><td><code>U+2060</code></td><td>Соединитель слов (WJ)</td><td><span class="tag tag-red">Высокая</span></td><td>LLM</td></tr>
+            <tr><td colspan="4" style="text-align:center;color:var(--text3);font-size:12px;padding:10px">+ ещё 10 типов в коде detector.js</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <div class="alert alert-success" style="margin-bottom:2rem">
+      ✓ Весь код работает в браузере на JavaScript — никакие данные не отправляются на сервер.
+    </div>
+
+    <div style="text-align:center">
+      <a href="decode.html" class="btn btn-primary">Попробовать детектор →</a>
+    </div>
+  </main>
+  <footer>
+    <p>InvisibleDetector · <a href="index.html">Главная</a> · <a href="faq.html">FAQ</a></p>
+  </footer>
+  <script src="js/nav.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
