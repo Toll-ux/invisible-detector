@@ -27,6 +27,16 @@
       border: 1px solid var(--border);
       border-radius: 8px; font-size: 13px;
     }
+    #foundList::-webkit-scrollbar {width: 6px;}
+    #foundList::-webkit-scrollbar-track {background: var(--surface); border-radius: 10px;}
+    #foundList::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 10px;
+      transition: background 0.2s;
+    }
+    #foundList::-webkit-scrollbar-thumb:hover {background: rgba(255, 255, 255, 0.2);}
     .found-item.sev-highest  {border-color: #60a5fa; background:  rgba(59, 130, 246, 0.15);  }
     .found-item.sev-high   { border-color: rgba(232,65,122,.25); background: rgba(232,65,122,.05); }
     .found-item.sev-medium { border-color: rgba(245,158,11,.2);  background: rgba(245,158,11,.04); }
@@ -49,6 +59,7 @@
     mark.hi-red  { background: rgba(232,65,122,.22); color: #f589a8; border-radius: 3px; font-family: var(--font-mono); font-size: 11px; padding: 0 3px; }
     mark.hi-warn { background: rgba(245,158,11,.18);  color: #fbc96a; border-radius: 3px; font-family: var(--font-mono); font-size: 11px; padding: 0 3px; }
     mark.hi-gray { background: var(--surface); color: var(--text2); border-radius: 3px; font-family: var(--font-mono); font-size: 11px; padding: 0 3px; }
+    mark.hi-blue  { background: rgba(59,130,246,.20);  color: #93c5fd; border-radius: 3px; font-family: var(--font-mono); font-size: 11px; padding: 0 3px; }
     .noise-row {
       display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
       padding: 14px 16px;
@@ -64,7 +75,7 @@
   <div id="nav-placeholder"></div>
 
   <main>
-    <h1 style="font-family:var(--font-display);font-size:1.9rem;font-weight:700;letter-spacing:-.5px;margin-bottom:.3rem">Детектор символов</h1>
+    <h1 style="font-family:var(--font-display);font-size:1.9rem;font-weight:700;letter-spacing:-.5px;margin-bottom:.3rem">Декодер символов</h1>
 
     <!-- INPUT -->
     <div class="toolbar">

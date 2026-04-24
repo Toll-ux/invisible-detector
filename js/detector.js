@@ -105,7 +105,7 @@ function analyzeText(text) {
   let totalHid = 0;
 
   for (const ch of text) {
-    const symMatch = INVISIBLE_CHARS.find(s => s.char === ch); // убрали || 0
+    const symMatch = INVISIBLE_CHARS.find(s => s.char === ch);
     if (symMatch) {
       totalInv++;
       const existing = stats.get(symMatch.char);
@@ -157,11 +157,30 @@ function removeInvisible(text) {
 
 function highlightInvisible(text) {
   let html = '';
-  for (const ch of text) {
+  let hiddenBuffer = [];
+
+  const chars = [...text];
+
+  for (let i = 0; i < chars.length; i++) {
+    const ch = chars[i];
+    const codePoint = ch.codePointAt(0);
+    const byte = fromVariationSelector(codePoint);
+
+    if (byte !== null) {
+      hiddenBuffer.push(byte);
+      const nextByte = i + 1 < chars.length ? fromVariationSelector(chars[i+1].codePointAt(0)) : null;
+      if (nextByte === null) {
+        const decoded = new TextDecoder().decode(new Uint8Array(hiddenBuffer));
+        html += `<mark class="hi-blue" title="Скрытые данные">${decoded}</mark>`;
+        hiddenBuffer = [];
+      }
+      continue;
+    }
+
     const sym = INVISIBLE_CHARS.find(s => s.char === ch);
     if (sym) {
-      const cls = sym.severity === 'high' ? 'hi-red' : sym.severity === 'medium' ? 'hi-warn' : 'hi-gray';
-      html += `<mark class="${cls}" title="${sym.name} (${sym.code})">[${sym.code}]</mark>`;
+      const cls = sym.severity === 'high' ? 'hi-red' : sym.severity === 'medium' ? 'hi-warn' : 'hi-blue';
+      html += `<mark class="${cls}" title="${sym.name}">${sym.code}</mark>`;
     } else {
       html += ch === '<' ? '&lt;' : ch === '>' ? '&gt;' : ch === '&' ? '&amp;' : ch;
     }
@@ -169,12 +188,13 @@ function highlightInvisible(text) {
   return html;
 }
 
-//здесь еть скрытая ошибка внедрят символы, куда не надо и они перестают быть невидимыми
+
 function addSymbolNoise(text, intensity = 0.1) {
-  return text.split('').map(ch => {
+  return [...text].map(ch => {
     const codePoint = ch.codePointAt(0);
-    const byte = fromVariationSelector(codePoint);
-    if (Math.random() < intensity && byte == null) {
+    const isVS = fromVariationSelector(codePoint) !== null;
+    const isInvis = INVISIBLE_CHARS.some(s => s.char === ch);
+    if (Math.random() < intensity && !isVS && !isInvis) {
       const noise = NOISE_POOL[Math.floor(Math.random() * NOISE_POOL.length)];
       return ch + (noise || '');
     }
@@ -182,17 +202,20 @@ function addSymbolNoise(text, intensity = 0.1) {
   }).join('');
 }
 
-//здесь еть скрытая ошибка внедрят символы, куда не надо и они перестают быть невидимыми
+
 function addMessageNoise(text, intensity = 0.1, length = 5) {
-  return text.split('').map(ch => {
-    if (Math.random() < intensity && !(ch in INVISIBLE_CHARS)) {
-      const iterations = Math.floor(Math.random() * length) + 1
-      let text = '';
+  return [...text].map(ch => {
+    const codePoint = ch.codePointAt(0);
+    const isVS = fromVariationSelector(codePoint) !== null;
+    const isInvis = INVISIBLE_CHARS.some(s => s.char === ch);
+
+    if (Math.random() < intensity && !isVS && !isInvis) {
+      const iterations = Math.floor(Math.random() * length) + 1;
+      let noiseText = '';
       for (let i = 0; i < iterations; i++) {
-        const randomIndex = Math.floor(Math.random() * ALPHABET.length);
-        text += ALPHABET[randomIndex];
+        noiseText += ALPHABET[Math.floor(Math.random() * ALPHABET.length)];
       }
-      return encode(ch, (text || ''));
+      return encode(ch, noiseText);
     }
     return ch;
   }).join('');
