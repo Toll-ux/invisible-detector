@@ -9,9 +9,8 @@
 invisible-detector/
 ├── index.html
 ├── detector.html
-├── how-it-works.html
+├── how-it-works-about.html
 ├── faq.html
-├── about.html
 ├── css/
 │   └── style.css       
 └── js/

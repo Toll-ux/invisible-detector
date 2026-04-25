@@ -3,15 +3,14 @@ document.addEventListener('DOMContentLoaded', () => {
   const navHTML = `
     <nav>
       <a class="nav-logo" href="index.html">
-        Ведьмочки с ключом на 9
+        Invisible Detector
       </a>
       <ul class="nav-links">
         <li><a href="index.html">Главная</a></li>
         <li><a href="decode.html">Декодер</a></li>
         <li><a href="encode.html">Кодер</a></li>
-        <li><a href="how-it-works.html">Как работает</a></li>
+        <li><a href="how-it-works-about.html">О проекте и работе InvisibleDetector</a></li>
         <li><a href="faq.html">FAQ</a></li>
-        <li><a href="about.html">О проекте</a></li>
       </ul>
     </nav>
   `;

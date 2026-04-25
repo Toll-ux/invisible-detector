@@ -9,8 +9,14 @@
   <component name="ChangeListManager">
     <list default="true" id="74c206e4-6096-4ded-90ba-e03bcb0870ba" name="Changes" comment="Все наработки">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/about.html" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/decode.html" beforeDir="false" afterPath="$PROJECT_DIR$/decode.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/encode.html" beforeDir="false" afterPath="$PROJECT_DIR$/encode.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/faq.html" beforeDir="false" afterPath="$PROJECT_DIR$/faq.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/how-it-works.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/nav.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/nav.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,7 +61,7 @@
   }
 }</component>
   <component name="ProblemsViewState">
-    <option name="selectedTabId" value="DEPENDENCY_CHECKER_PROBLEMS_TAB" />
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 3,
@@ -112,7 +118,10 @@
       <updated>1776949170688</updated>
       <workItem from="1776949171829" duration="23535000" />
       <workItem from="1776977278250" duration="15174000" />
-      <workItem from="1777056424722" duration="12857000" />
+      <workItem from="1777056424722" duration="13278000" />
+      <workItem from="1777113758146" duration="3029000" />
+      <workItem from="1777139961466" duration="1686000" />
+      <workItem from="1777149488683" duration="2019000" />
     </task>
     <task id="LOCAL-00001" summary="Все наработки">
       <option name="closed" value="true" />
