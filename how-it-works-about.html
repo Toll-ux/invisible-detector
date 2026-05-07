@@ -29,7 +29,7 @@
     .team-name { font-weight: 600; font-size: .95rem; margin-bottom: 2px; }
     .team-role { font-size: .8rem; color: var(--accent2); font-weight: 500; margin-bottom: 6px; font-family: var(--font-mono); }
     .team-desc { font-size: .85rem; color: var(--text2); line-height: 1.6; }
-    
+
     .stack-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; }
     .stack-item {
       background: var(--surface); border-radius: var(--radius); padding: 12px 14px;
@@ -38,7 +38,7 @@
     .stack-file { font-family: var(--font-mono); font-size: 12px; color: var(--accent3); font-weight: 500; }
     .stack-desc { font-size: 11px; color: var(--text3); }
     .contact-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 1rem; }
-    
+
     /* Стили из how-it-works */
     .step {
       display: flex; gap: 1.5rem; align-items: flex-start;
@@ -58,7 +58,7 @@
     .sn-warn   { background: rgba(245,158,11,.15);  color: var(--warn); }
     .step h3 { font-family: var(--font-display); font-size: 1.05rem; font-weight: 600; margin-bottom: .3rem; }
     .step p  { font-size: .9rem; color: var(--text2); line-height: 1.7; }
-    
+
     .char-table { width: 100%; border-collapse: collapse; font-size: 13px; }
     .char-table th {
       text-align: left; padding: 10px 12px;
@@ -70,7 +70,7 @@
     .char-table td { padding: 10px 12px; border-bottom: 1px solid var(--border); vertical-align: middle; }
     .char-table tr:last-child td { border-bottom: none; }
     .char-table tr:hover td { background: var(--bg3); }
-    
+
     .tag {
       display: inline-block; padding: 2px 8px; border-radius: 20px;
       font-size: 11px; font-weight: 500;
@@ -78,19 +78,19 @@
     .tag-red { background: rgba(232,65,122,.15); color: var(--accent); }
     .tag-warn { background: rgba(245,158,11,.15); color: var(--warn); }
     .tag-purple { background: rgba(124,92,252,.15); color: #a88cff; }
-    
+
     pre {
       background: var(--bg3); padding: 10px 12px; border-radius: var(--radius);
       overflow-x: auto; font-size: 12px; margin-top: 8px;
       border: 1px solid var(--border);
     }
-    
-    @media(max-width:600px){ 
+
+    @media(max-width:600px){
       .team-grid, .stack-grid { grid-template-columns: 1fr; }
       .step { flex-direction: column; gap: 0.8rem; }
       .step-num { align-self: flex-start; }
     }
-    
+
     .section-divider {
       margin: 3rem 0 1rem;
       border-top: 1px solid var(--border);
@@ -98,131 +98,131 @@
   </style>
 </head>
 <body>
-  <div id="nav-placeholder"></div>
-  <main>
-    <!-- Hero блок общий -->
-    <h1 style="font-family:var(--font-display);font-size:2rem;font-weight:800;letter-spacing:-.5px;margin-bottom:.4rem">О проекте и как работает</h1>
-    <p style="color:var(--text2);margin-bottom:2.5rem">Задача проекта, команда реализующая проект и как работать с инструментом</p>
+<div id="nav-placeholder"></div>
+<main>
+  <!-- Hero блок общий -->
+  <h1 style="font-family:var(--font-display);font-size:2rem;font-weight:800;letter-spacing:-.5px;margin-bottom:.4rem">О проекте и как работает</h1>
+  <p style="color:var(--text2);margin-bottom:2.5rem">Задача проекта, команда реализующая проект и как работать с инструментом</p>
 
-    <!-- ==================== БЛОК 1: МИССИЯ (из about) ==================== -->
-    <section style="margin-bottom:3rem">
-      <h2 class="section-title">Для чего это нужно</h2>
-      <div class="card">
-        <p style="font-size:1rem;line-height:1.8;color:var(--text2)">
-          InvisibleDetector создан чтобы сделать работу с LLM-текстами прозрачной.
-          Для этого пользователь должен знать что содержится в тексте —
-          даже если это невидимо глазу. Инструмент полностью бесплатный и работает без сервера.
-        </p>
-      </div>
-    </section>
+  <!-- ==================== БЛОК 1: МИССИЯ (из about) ==================== -->
+  <section style="margin-bottom:3rem">
+    <h2 class="section-title">Для чего это нужно</h2>
+    <div class="card">
+      <p style="font-size:1rem;line-height:1.8;color:var(--text2)">
+        InvisibleDetector создан чтобы сделать работу с LLM-текстами прозрачной.
+        Для этого пользователь должен знать что содержится в тексте —
+        даже если это невидимо глазу. Инструмент полностью бесплатный и работает без сервера.
+      </p>
+    </div>
+  </section>
 
-    <!-- ==================== БЛОК 2: КОМАНДА (из about) ==================== -->
-    <section style="margin-bottom:3rem">
-      <h2 class="section-title">Команда</h2>
-      <div class="team-grid">
-        <div class="team-card">
-          <div class="avatar av1">АМ</div>
-          <div>
-            <div class="team-name">Александр Мухачёв</div>
-            <div class="team-role">Тимлид · GitHub · Code review</div>
-            <div class="team-desc">Архитектура проекта, задачи, навигация, README и общая инфраструктура кода.</div>
-          </div>
-        </div>
-        <div class="team-card">
-          <div class="avatar av2">МД</div>
-          <div>
-            <div class="team-name">Мальцев Дмитрий</div>
-            <div class="team-role">тут типо чем занят был</div>
-            <div class="team-desc">тут типо поподробнее</div>
-          </div>
-        </div>
-        <div class="team-card">
-          <div class="avatar av3">АГ</div>
-          <div>
-            <div class="team-name">Алексеев Георгий</div>
-            <div class="team-role">тут типо чем занят был</div>
-            <div class="team-desc">тут типо поподробнее</div>
-          </div>
-        </div>
-        <div class="team-card">
-          <div class="avatar av4">ДК</div>
-          <div>
-            <div class="team-name">Долгушин Константин</div>
-            <div class="team-role">Вёрстка · Дизайн</div>
-            <div class="team-desc">Стили, шрифты, вёрстка</div>
-          </div>
-        </div>
-        <div class="team-card">
-          <div class="avatar av5">ВЕ</div>
-          <div>
-            <div class="team-name">Власов Елисей</div>
-            <div class="team-role">Отчетность · Тексты </div>
-            <div class="team-desc">Написание текстов страниц и отчетов о проделанной работе</div>
-          </div>
-        </div>
-      
-      </div>
-    </section>
-
-    <!-- ==================== БЛОК 3: Зачем нужен детектор? (из how-it-works) ==================== -->
-    <section style="margin-bottom:3rem">
-      <h2 class="section-title">Зачем нужен детектор?</h2>
-      <p class="section-sub">Почему в текстах от LLM появляются скрытые символы</p>
-      <div class="card" style="margin-bottom:1rem">
-        <p style="font-size:.95rem;line-height:1.8;color:var(--text2)">
-          Языковые модели (ChatGPT, Claude, Gemini и др.) иногда включают в ответы невидимые символы Unicode —
-          нулевые пробелы, мягкие переносы, соединители. Эти символы <strong style="color:var(--text)">не видны</strong> на экране,
-          но присутствуют в тексте: они могут ломать поиск, нарушать парсинг, служить для скрытой
-          пометки контента или просто засорять данные.
-        </p>
-      </div>
-      <div class="alert alert-info">
-        💡 Пример: строка «привет» может содержать U+200B между буквами и выглядеть нормально, но при сравнении с «привет» — не совпадёт.
-      </div>
-    </section>
-
-    <!-- ==================== БЛОК 4: АЛГОРИТМ ЗА 4 ШАГА (из how-it-works) ==================== -->
-    <section style="margin-bottom:3rem">
-      <h2 class="section-title">Как работает Декодер</h2>
-
-      <div class="step">
-        <div class="step-num sn-red">1</div>
+  <!-- ==================== БЛОК 2: КОМАНДА (из about) ==================== -->
+  <section style="margin-bottom:3rem">
+    <h2 class="section-title">Команда</h2>
+    <div class="team-grid">
+      <div class="team-card">
+        <div class="avatar av1">АМ</div>
         <div>
-          <h3>Считать текст</h3>
-          <p>Текст из <code>textarea</code> считывается как JavaScript-строка. Каждый символ в JS — это кодовая единица UTF-16.</p>
+          <div class="team-name">Александр Мухачёв</div>
+          <div class="team-role">Тимлид · GitHub · Code review</div>
+          <div class="team-desc">Архитектура проекта, задачи, навигация, README и общая инфраструктура кода.</div>
+        </div>
+      </div>
+      <div class="team-card">
+        <div class="avatar av2">МД</div>
+        <div>
+          <div class="team-name">Мальцев Дмитрий</div>
+          <div class="team-role">Frontend · Разработка сайта</div>
+          <div class="team-desc">Разработка инструментов и наполнение страниц</div>
+        </div>
+      </div>
+      <div class="team-card">
+        <div class="avatar av3">АГ</div>
+        <div>
+          <div class="team-name">Алексеев Георгий</div>
+          <div class="team-role">Frontend · Разработка сайта</div>
+          <div class="team-desc">Разработка инструментов и наполнение страниц</div>
+        </div>
+      </div>
+      <div class="team-card">
+        <div class="avatar av4">ДК</div>
+        <div>
+          <div class="team-name">Долгушин Константин</div>
+          <div class="team-role">Вёрстка · Дизайн</div>
+          <div class="team-desc">Стили, шрифты, вёрстка</div>
+        </div>
+      </div>
+      <div class="team-card">
+        <div class="avatar av5">ВЕ</div>
+        <div>
+          <div class="team-name">Власов Елисей</div>
+          <div class="team-role">Отчетность · Тексты </div>
+          <div class="team-desc">Написание текстов страниц и отчетов о проделанной работе</div>
         </div>
       </div>
 
-      <div class="step">
-        <div class="step-num sn-purple">2</div>
-        <div>
-          <h3>Сравнить каждый символ с таблицей</h3>
-          <p>Перебираем символы через <code>for...of</code>. Сравниваем с 19 записями в таблице невидимых символов.</p>
-          <pre>for (const ch of text) {
+    </div>
+  </section>
+
+  <!-- ==================== БЛОК 3: Зачем нужен детектор? (из how-it-works) ==================== -->
+  <section style="margin-bottom:3rem">
+    <h2 class="section-title">Зачем нужен детектор?</h2>
+    <p class="section-sub">Почему в текстах от LLM появляются скрытые символы</p>
+    <div class="card" style="margin-bottom:1rem">
+      <p style="font-size:.95rem;line-height:1.8;color:var(--text2)">
+        Языковые модели (ChatGPT, Claude, Gemini и др.) иногда включают в ответы невидимые символы Unicode —
+        нулевые пробелы, мягкие переносы, соединители. Эти символы <strong style="color:var(--text)">не видны</strong> на экране,
+        но присутствуют в тексте: они могут ломать поиск, нарушать парсинг, служить для скрытой
+        пометки контента или просто засорять данные.
+      </p>
+    </div>
+    <div class="alert alert-info">
+      💡 Пример: строка «привет» может содержать U+200B между буквами и выглядеть нормально, но при сравнении с «привет» — не совпадёт.
+    </div>
+  </section>
+
+  <!-- ==================== БЛОК 4: АЛГОРИТМ ЗА 4 ШАГА (из how-it-works) ==================== -->
+  <section style="margin-bottom:3rem">
+    <h2 class="section-title">Как работает Декодер</h2>
+
+    <div class="step">
+      <div class="step-num sn-red">1</div>
+      <div>
+        <h3>Считать текст</h3>
+        <p>Текст из <code>textarea</code> считывается как JavaScript-строка. Каждый символ в JS — это кодовая единица UTF-16.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num sn-purple">2</div>
+      <div>
+        <h3>Сравнить каждый символ с таблицей</h3>
+        <p>Перебираем символы через <code>for...of</code>. Сравниваем с 19 записями в таблице невидимых символов.</p>
+        <pre>for (const ch of text) {
   const sym = TABLE.find(s => s.char === ch);
   if (sym) found[sym.code] = (found[sym.code] || 0) + 1;
 }</pre>
-        </div>
       </div>
+    </div>
 
-      <div class="step">
-        <div class="step-num sn-teal">3</div>
-        <div>
-          <h3>Вывод результата</h3>
-          <p>Формируем текст без невидимых символов и статистику: сколько символов всего, сколько невидимых, каких типов и сколько раз каждый встретился.</p>
-        </div>
+    <div class="step">
+      <div class="step-num sn-teal">3</div>
+      <div>
+        <h3>Вывод результата</h3>
+        <p>Формируем текст без невидимых символов и статистику: сколько символов всего, сколько невидимых, каких типов и сколько раз каждый встретился.</p>
       </div>
-
-      <div class="step">
-        <div class="step-num sn-warn">4</div>
-        <div>
-          <h3>Отобразить в интерфейсе??????????????????Это как то поменять</h3>
-          <p>Для подсветки строим HTML: обычные символы вставляем как есть, невидимые оборачиваем в <code>&lt;mark&gt;</code> с тултипом кода.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- ==================== БЛОК 5: ТАБЛИЦА СИМВОЛОВ (из how-it-works) ==================== -->
+    </div>
+    <!--
+          <div class="step">
+            <div class="step-num sn-warn">4</div>
+            <div>
+              <h3>Отобразить в интерфейсе??????????????????Это как то поменять</h3>
+              <p>Для подсветки строим HTML: обычные символы вставляем как есть, невидимые оборачиваем в <code>&lt;mark&gt;</code> с тултипом кода.</p>
+            </div>
+          </div>
+        </section>
+    -->
+    <!-- ==================== БЛОК 5: ТАБЛИЦА СИМВОЛОВ (из how-it-works) ====================
     <section style="margin-bottom:3rem">
       <h2 class="section-title">Таблица символов</h2>
       <p class="section-sub">19 типов скрытых символов, которые мы ищем</p>
@@ -246,7 +246,7 @@
         </table>
       </div>
     </section>
-
+-->
     <!-- ==================== БЛОК 6: СТРУКТУРА ПРОЕКТА (из about) ==================== -->
     <section style="margin-bottom:3rem">
       <h2 class="section-title">Структура проекта</h2>
@@ -259,36 +259,34 @@
         <div class="stack-item"><div class="stack-file">faq.html</div><div class="stack-desc">Частые вопросы</div></div>
 
         <div class="stack-item"><div class="stack-file">js/detector.js</div><div class="stack-desc">Вся логика Unicode</div></div>
-        <div class="stack-item"><div class="stack-file">js/main.js</div><div class="stack-desc">Утилиты, тост?какойблятьтост</div></div>
+        <div class="stack-item"><div class="stack-file">js/main.js</div><div class="stack-desc">Утилиты, toast</div></div>
         <div class="stack-item"><div class="stack-file">js/nav.js</div><div class="stack-desc">Навигация</div></div>
         <div class="stack-item"><div class="stack-file">css/style.css</div><div class="stack-desc">Все стили</div></div>
       </div>
     </section>
-
-    <!-- ==================== БЛОК 7: БЕЗОПАСНОСТЬ (из how-it-works) ====================Это не думаю что нужно -->
+    <!-- ==================== БЛОК 7: БЕЗОПАСНОСТЬ (из how-it-works) ====================Это не думаю что нужно
     <div class="alert alert-success" style="margin-bottom:2rem">
       ✓ Весь код работает в браузере на JavaScript — никакие данные не отправляются на сервер.
-    </div>
-
+    </div>-->
     <!-- ==================== БЛОК 8: КОНТАКТЫ И ССЫЛКИ (из about + how-it-works) ==================== -->
     <section style="margin-bottom:2rem">
       <div class="contact-row">
         <a href="index.html" class="btn">На главную</a>
-        <a href="decode.html" class="btn btn-primary">Открыть детектор →</a>
+        <a href="invisible-detector.html" class="btn btn-primary">Открыть детектор →</a>
 
       </div>
     </section>
 
     <div style="text-align:center; margin-top: 1rem; margin-bottom: 2rem">
       <a href="faq.html" class="btn" style="background: var(--bg2);">📖 Перейти к FAQ</a>
-      <a href="https://github.com" class="btn" style="background: var(--bg2);"><img src="icons8-github-24.svg" width="20" height="24" alt="GitHub">
-        GitHub репозиторий(Это если хочется то сделаем)</a>
+      <a href="https://github.com/Toll-ux/invisible-detector" class="btn" style="background: var(--bg2);"><img src="icons8-github-24.svg" width="20" height="24" alt="GitHub">
+        GitHub репозиторий</a>
     </div>
   </main>
-  <footer>
-    <p>InvisibleDetector · <a href="faq.html">FAQ</a> 
-  </footer>
-  <script src="js/nav.js"></script>
-  <script src="js/main.js"></script>
+<footer>
+  <p>InvisibleDetector · <a href="https://rutube.ru/video/c6cc4d620b1d4338901770a44b3e82f4">FAQ</a>
+</footer>
+<script src="js/nav.js"></script>
+<script src="js/main.js"></script>
 </body>
 </html>

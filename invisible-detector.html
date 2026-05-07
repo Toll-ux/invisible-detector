@@ -6,6 +6,20 @@
     <title>Кодер — Ведьмочки с ключом на 9</title>
     <link rel="stylesheet" href="css/style.css">
     <style>
+        textarea#inputText { min-height: 190px; line-height: 1.7; }
+        .found-list { display: flex; flex-direction: column; gap: 6px; max-height: 260px; overflow-y: auto; }
+        .found-item {
+            display: flex; align-items: center; gap: 10px;
+            padding: 9px 12px;
+            background: var(--bg3);
+            border: 1px solid var(--border);
+            border-radius: 8px; font-size: 13px;
+        }
+
+        #inputText::-webkit-scrollbar {
+            display: none;
+        }
+
         .toolbar {
             display: flex; align-items: center;
             justify-content: space-between; margin-bottom: 8px; flex-wrap: wrap; gap: 8px;
@@ -18,7 +32,6 @@
             font-size: 11px; color: var(--text3); font-family: var(--font-mono);
             pointer-events: none;
         }
-        textarea#inputText { min-height: 190px; line-height: 1.7; }
         .found-list { display: flex; flex-direction: column; gap: 6px; max-height: 260px; overflow-y: auto; }
         .found-item {
             display: flex; align-items: center; gap: 10px;
@@ -27,16 +40,6 @@
             border: 1px solid var(--border);
             border-radius: 8px; font-size: 13px;
         }
-        #inputText::-webkit-scrollbar {width: 6px;}
-        #inputText::-webkit-scrollbar-track {background: var(--surface); border-radius: 10px;}
-        #inputText::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 10px;
-            transition: background 0.2s;
-        }
-
         #foundList::-webkit-scrollbar {width: 6px;}
         #foundList::-webkit-scrollbar-track {background: var(--surface); border-radius: 10px;}
         #foundList::-webkit-scrollbar-thumb {
@@ -89,19 +92,48 @@
         input[type=range] { flex: 1; min-width: 100px; accent-color: var(--accent2); }
         #noiseLbl { font-size: 13px; font-weight: 500; font-family: var(--font-mono); min-width: 20px; }
         .empty-state { text-align: center; padding: 1.5rem; color: var(--text3); font-size: 13px; }
+        /* для кнопок сбоку от текста */
+        .editor-with-side-buttons { display: flex; gap: 12px; align-items: flex-start; }
+        .editor-with-side-buttons .editor-wrap { flex: 1;}
+        .side-buttons { display: flex; flex-direction: column; gap: 8px; justify-content: center; }
+        .side-buttons .btn { white-space: nowrap; min-height: 57px; }
+        .editable-area {
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 14px 16px;
+            font-family: var(--font-mono);
+            font-size: 14px;
+            line-height: 1.65;
+            color: var(--text);
+            min-height: 190px;
+            max-height: 320px;
+            overflow-y: auto;
+            outline: none;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+        .editable-area:focus {
+            border-color: var(--accent2);
+            box-shadow: 0 0 0 2px rgba(232,65,122,.22);
+        }
+        .editable-area[data-placeholder]:empty:before {
+            content: attr(data-placeholder);
+            color: var(--text3);
+        }
     </style>
 </head>
 <body>
 <div id="nav-placeholder"></div>
 
 <main>
-    <!--<h1 style="font-family:var(--font-display);font-size:1.9rem;font-weight:700;letter-spacing:-.5px;margin-bottom:.3rem">Кодер символов</h1> -->
-    <h1 style="font-family:var(--font-display);font-size:2rem;font-weight:800;letter-spacing:-.5px;margin-bottom:.4rem">Кодер символов</h1>
+    <h1 style="font-family:var(--font-display);font-size:1.9rem;font-weight:700;letter-spacing:-.5px;margin-bottom:.3rem">Детектор символов</h1>
+
     <!-- INPUT -->
     <div class="toolbar">
-        <!-- <span class="toolbar-label" id="inputLabel">Введите или вставьте текст</span> -->
+        <span class="toolbar-label" id="inputLabel">Введите или вставьте текст</span>
         <div class="btn-row">
-            <!--<a href="#" class="btn" style="color:var(--text);border-color:rgba(232,65,122,.25)" onclick="navigateWithText()">Декодер</a>-->
+            <a href="#" class="btn" style="color:var(--text);border-color:rgba(232,65,122,.25)" onclick="navigateWithText()">Декодер</a>
             <button class="btn" style="color:var(--text);border-color:rgba(232,65,122,.25)" onclick="loadSample()">Пример текста</button>
             <button class="btn" style="color:var(--accent);border-color:rgba(232,65,122,.25)" onclick="clearAll()">Очистить</button>
             <button id="btnPaste" class="btn">
@@ -113,9 +145,16 @@
             </button>
         </div>
     </div>
-    <div class="editor-wrap">
-        <textarea id="inputText" placeholder="Вставьте или введите текст из источника..." oninput="onInput()"></textarea>
-        <span class="char-count" id="charCount">0</span>
+    <div class="editor-with-side-buttons">
+        <div class="editor-wrap"> <!-- Сделай то же самое в декодере-->
+            <div id="inputText" class="editable-area" contenteditable="true" role="textbox" aria-multiline="true" data-placeholder="Вставьте текст из источника..." oninput="onInput()"></div>
+            <span class="char-count" id="charCount">0</span>
+        </div>
+        <div class="side-buttons">
+            <button class="btn" onclick="insertHiddenSymbol()">Вставить символ</button>
+            <button class="btn" onclick="encodeCurrentSelection()">Закодировать текст</button>
+            <button class="btn" onclick="decodeSelectedText()">раскодировать текст</button>
+        </div>
     </div>
 
     <!-- STATS -->
@@ -178,7 +217,7 @@
 </main>
 
 <footer>
-    <p>InvisibleDetector · <a href="faq.html">FAQ</a>
+    <p>InvisibleDetector · <a href="index.html">Главная</a> · <a href="how-it-works-about.html">О проекте</a></p>
 </footer>
 
 <script src="js/nav.js"></script>
@@ -189,9 +228,24 @@
     let currentText = '';
 
     function onInput() {
-        currentText = document.getElementById('inputText').value;
-        document.getElementById('charCount').textContent = currentText.length + ' симв.';
-        render(D.analyzeText(currentText));
+        const editable = document.getElementById('inputText');
+        let text = editable.textContent || '';
+        
+        if (!text || text.trim() === '') {
+            const hasVisibleContent = Array.from(editable.childNodes).some(node => {
+                if (node.nodeType === Node.TEXT_NODE && node.textContent.trim() !== '') return true;
+                if (node.nodeType === Node.ELEMENT_NODE && node.nodeName !== 'BR') return true;
+                return false;
+            });
+            if (!hasVisibleContent) {
+                text = '';
+                editable.innerHTML = '';
+            }
+        }
+        
+        currentText = text;
+        document.getElementById('charCount').textContent = (currentText.length || 0) + ' симв.';
+        render(D.analyzeText(currentText || ''));
     }
 
     function render(result) {
@@ -230,12 +284,14 @@
     }
 
     function loadSample() {
-        document.getElementById('inputText').value = D.generateNoisySample();
+        const editable = document.getElementById('inputText');
+        editable.innerText = D.generateNoisySample(); 
         onInput();
     }
 
     function clearAll() {
-        document.getElementById('inputText').value = '';
+        const editable = document.getElementById('inputText');
+        editable.innerText = '';
         document.getElementById('cleanSection').style.display = 'none';
         document.getElementById('highlightSection').style.display = 'none';
         currentText = '';
@@ -245,7 +301,8 @@
     function doRemove() {
         if (!currentText) return;
         const clean = D.removeInvisible(currentText);
-        document.getElementById('inputText').value = clean;
+        const editable = document.getElementById('inputText');
+        editable.innerText = clean;
         document.getElementById('cleanBox').textContent = clean;
         document.getElementById('cleanSection').style.display = 'block';
         currentText = clean;
@@ -261,43 +318,146 @@
     document.getElementById('btnPaste').addEventListener('click', async () => {
         try {
             const text = await navigator.clipboard.readText();
-            const inputField = document.getElementById('inputBox');
-            inputField.value = text;
-            analyzeText(text);
+            const editable = document.getElementById('inputText');
+            editable.innerText = text;
+            onInput();
         } catch (err) {
             console.error('Не удалось прочитать буфер обмена: ', err);
-            alert('Пожалуйста, разрешите доступ к буферу обмена в браузере.');
+            showToast('Пожалуйста, разрешите доступ к буферу обмена в браузере.', 'error');
         }
     });
 
-    function doAddHiddenNoise() {//нейминг говна, конечно
+    function doAddHiddenNoise() {
         if (!currentText) { showToast('Сначала введите текст', 'error'); return; }
         const lvl = parseInt(document.getElementById('noiseRange').value) / 100;
         const num = parseInt(document.getElementById('noiseRange').value) * 5;
-        document.getElementById('inputText').value = D.addMessageNoise(currentText, lvl, num);
+        const editable = document.getElementById('inputText');
+        editable.innerText = D.addMessageNoise(currentText, lvl, num);
         onInput();
     }
 
-    function doAddSymbolNoise() {//нейминг говна, конечно
+    function doAddSymbolNoise() {
         if (!currentText) { showToast('Сначала введите текст', 'error'); return; }
         const lvl = parseInt(document.getElementById('noiseRange').value) / 100;
-        document.getElementById('inputText').value = D.addSymbolNoise(currentText, lvl);
+        const editable = document.getElementById('inputText');
+        editable.innerText = D.addSymbolNoise(currentText, lvl);
         onInput();
     }
 
-    function navigateWithText() { //перенести текст при смене страниц энкодер-декодер
-        const text = document.getElementById('inputText').value;
+    function insertHiddenSymbol() {
+        if (!currentText) { 
+            showToast('Сначала введите текст', 'error'); 
+            return; 
+        }
+        
+        const editable = document.getElementById('inputText');
+        const selection = window.getSelection();
+        
+        if (selection.rangeCount > 0) {
+            const range = selection.getRangeAt(0);
+            const symbol = D.getRandomHighSeverityChar();
+            
+            const textNode = document.createTextNode(symbol);
+            
+            range.deleteContents();
+            range.insertNode(textNode);
+
+            range.setStartAfter(textNode);
+            range.setEndAfter(textNode);
+            selection.removeAllRanges();
+            selection.addRange(range);
+            
+            editable.focus();
+            onInput();
+            showToast('Скрытый символ добавлен');
+        } else {
+            const symbol = D.getRandomHighSeverityChar();
+            const textNode = document.createTextNode(symbol);
+            editable.appendChild(textNode);
+            
+            const range = document.createRange();
+            range.selectNodeContents(editable);
+            range.collapse(false);
+            selection.removeAllRanges();
+            selection.addRange(range);
+            
+            editable.focus();
+            onInput();
+            showToast('Скрытый символ добавлен в конец');
+        }
+    }
+
+    function navigateWithText() {
+        const editable = document.getElementById('inputText');
+        const text = editable.innerText || editable.textContent || '';
         const encodedText = encodeURIComponent(text);
         window.location.href = 'decode.html?text=' + encodedText;
+    }
+
+    function encodeCurrentSelection() {
+        const editable = document.getElementById('inputText');
+        const selection = window.getSelection();
+        
+        if (!selection.rangeCount || !editable.contains(selection.anchorNode)) {
+            showToast("Текст не выделен");
+            return null;
+        }
+        
+        const range = selection.getRangeAt(0);
+        const selectedText = range.toString(); 
+        const startNode = range.startContainer;
+        const startOffset = range.startOffset;
+        
+        if (!selectedText) {
+            showToast("Текст не выделен");
+            return null;
+        }
+
+        const precedingSymbol = startNode.textContent[startOffset - 1];
+        const encoded = D.encode(precedingSymbol, selectedText);
+        
+
+        const extendedRange = document.createRange();
+        extendedRange.setStart(startNode, startOffset - 1); 
+        extendedRange.setEnd(range.endContainer, range.endOffset);
+        extendedRange.deleteContents();
+        const textNode = document.createTextNode(encoded);
+        extendedRange.insertNode(textNode);
+        
+        onInput();
+    }
+
+    function decodeSelectedText() {
+        const editable = document.getElementById('inputText');
+        const selection = window.getSelection();
+
+        if (!selection.rangeCount || !editable.contains(selection.anchorNode)) {
+            showToast("Текст не выделен");
+            return null;
+        }
+
+        const range = selection.getRangeAt(0);
+        const selectedText = range.toString();
+        const startNode = range.startContainer;
+        const startOffset = range.startOffset;
+
+        if (!selectedText) {
+            showToast("Текст не выделен");
+            return null;
+        }
+
+        editable.innerText = D.decode( currentText );
+        onInput();
     }
 
     window.addEventListener('DOMContentLoaded', function() {
         const text = new URLSearchParams(window.location.search).get('text');
         if (!text) return;
-        const textarea = document.getElementById('inputText');
-        textarea.value = decodeURIComponent(text);
+        const editable = document.getElementById('inputText');
+        editable.innerText = decodeURIComponent(text);
         onInput();
     });
+
 </script>
 </body>
 </html>

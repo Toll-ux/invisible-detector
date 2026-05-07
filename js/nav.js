@@ -7,8 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
       </a>
       <ul class="nav-links">
         <li><a href="index.html">Главная</a></li>
-        <li><a href="decode.html">Декодер</a></li>
-        <li><a href="encode.html">Кодер</a></li>
+        <li><a href="invisible-detector.html">Детектор</a></li>
         <li><a href="how-it-works-about.html">О проекте и работе InvisibleDetector</a></li>
         <li><a href="faq.html">FAQ</a></li>
       </ul>

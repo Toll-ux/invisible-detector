@@ -22,6 +22,7 @@
       display: flex; align-items: center; justify-content: center;
       margin-bottom: 1rem; font-size: 20px;
     }
+    .fi-danger { background: rgb(253, 0, 0); }
     .fi-red    { background: rgba(232,65,122,0.12); }
     .fi-purple { background: rgba(124,92,252,0.12); }
     .fi-teal   { background: rgba(62,207,176,0.12); }
@@ -58,40 +59,74 @@
 
   <main>
     <section class="hero">
-      <h1>Ведбмочки с ключом на 9</h1>
-      <p>invisible detector</p>
+      <h1>InvisibleDetector</h1>
+      <h2>Ведьмочки с ключом на 9</h2>
+      <p>Анализируем текст на наличие невидимых символов, а также добавляем их</p>
       <div class="hero-actions">
-        <a href="decode.html" class="btn btn-primary">
+        <a href="invisible-detector.html" class="btn btn-primary">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
-          Открыть декодер
+          detector
         </a>
-        <a href="encode.html" class="btn btn-primary">
+	      <a href="faq.html" class="btn btn-gray">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
-          Открыть кодер
+          faq
         </a>
-        <a href="how-it-works-about.html" class="btn btn-ghost">Эбаут ас</a>
       </div>
     </section>
-    <h1>Скоро тут будет красиво</h1>
-    <!--
-        <div class="demo-strip">
-          <p style="font-size:.85rem;color:var(--text3);margin-bottom:.8rem;text-transform:uppercase;letter-spacing:.5px;font-weight:500">Обнаруживаем эти символы</p>
-          <div class="char-list">
-            <span class="tag tag-red">U+200B ZWSP</span>
-            <span class="tag tag-red">U+FEFF BOM</span>
-            <span class="tag tag-red">U+200D ZWJ</span>
-            <span class="tag tag-warn">U+00AD SHY</span>
-            <span class="tag tag-warn">U+00A0 NBSP</span>
-            <span class="tag tag-warn">U+2060 WJ</span>
-            <span class="tag tag-purple">U+2014 Em dash</span>
-            <span class="tag tag-purple">U+2013 En dash</span>
-            <span class="tag tag-gray">+ ещё 11 типов</span>
-          </div>
-        </div>
-      -->
-      </main>
 
-      <script src="js/nav.js"></script>
-      <script src="js/main.js"></script>
-    </body>
-    </html>
+    <div class="grid-2">
+
+      <div class="card">
+        <h3><code>U+E0100</code></h3>
+        <p><strong>Variation Selector-17 (VS17)</strong></p>
+        <p class="tag tag-danger">Самая высокая опасность</p>
+        <div class="tags-container">
+          <span>Источники: копипаст, редакторы</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3><code>U+200B</code></h3>
+        <p><strong>Нулевой пробел (ZWSP)</strong></p>
+        <p class="tag tag-red">Высокая опасность</p>
+        <div class="tags-container">
+          <span>Источники: LLM, копипаст, редакторы</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3><code>U+00AD</code></h3>
+        <p><strong>Мягкий перенос (SHY)</strong></p>
+        <p class="tag tag-warn">Средняя опасность</p>
+        <div class="tags-container">
+          <span>Источники: текстовые редакторы</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3><code>U+2013</code></h3>
+        <p><strong>Среднее тире (En dash)</strong></p>
+        <p class="tag tag-purple">Низкая опасность</p>
+        <div class="tags-container">
+          <span>Источники: LLM, типографика</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="floating-group-info">
+      <h4>МЕН-150206</h4>
+      <ul>
+        <li>Алексеев Георгий</li>
+        <li>Власов Елисей</li>
+        <li>Долгушин Константин</li>
+        <li>Мальцев Дмитрий</li>
+        <li>Мухачёв Александр</li>
+      </ul>
+    </div>
+    
+  </main>
+
+  <script src="js/nav.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
