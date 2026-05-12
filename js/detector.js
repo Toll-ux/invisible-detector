@@ -43,24 +43,32 @@ function encode(symbol, text) {
 }
 
 function decode(text) {
-  let decoded = []
+  let result = []
+  let currentByteBlock = []
   const chars = Array.from(text)
 
   for (const char of chars) {
     const codePoint = char.codePointAt(0);
     const byte = fromVariationSelector(codePoint);
 
-    if (byte === null && decoded.length > 0) {
-      break
-    } else if (byte === null) {
-      continue
+    if (byte !== null) {
+      currentByteBlock.push(byte)
+    } else {
+      if (currentByteBlock.length > 0) {
+        const decodedArray = new Uint8Array(currentByteBlock)
+        result.push(new TextDecoder().decode(decodedArray))
+        currentByteBlock = []
+      }
+      result.push(char)
     }
-
-    decoded.push(byte)
   }
 
-  let decodedArray = new Uint8Array(decoded)
-  return new TextDecoder().decode(decodedArray)
+  if (currentByteBlock.length > 0) {
+    const decodedArray = new Uint8Array(currentByteBlock)
+    result.push(new TextDecoder().decode(decodedArray))
+  }
+
+  return result.join('')
 }
 
 const ALPHABET = [

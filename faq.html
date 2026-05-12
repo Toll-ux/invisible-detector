@@ -9,41 +9,55 @@
     .faq-item {
       border: 1px solid var(--border);
       border-radius: var(--radius);
-      margin-bottom: 8px;
+      margin-bottom: 12px;
       overflow: hidden;
     }
     .faq-q {
       width: 100%; text-align: left;
       background: var(--bg2); border: none; cursor: pointer;
-      padding: 16px 20px;
+      padding: 20px 24px;
       display: flex; justify-content: space-between; align-items: center;
-      font-family: var(--font-body); font-size: 15px; font-weight: 500;
+      font-family: var(--font-body); font-size: 17px; font-weight: 600;
       color: var(--text); transition: background .18s;
     }
     .faq-q:hover { background: var(--surface); }
-    .faq-icon { font-size: 18px; color: var(--text3); transition: transform .2s; flex-shrink: 0; }
+    .faq-icon { font-size: 22px; color: var(--text3); transition: transform .2s; flex-shrink: 0; font-weight: 400; }
     .faq-item.open .faq-icon { transform: rotate(45deg); }
     .faq-a {
-      display: none; padding: 0 20px 16px;
+      display: none; padding: 0 24px 20px;
       background: var(--bg2);
-      font-size: .9rem; color: var(--text2); line-height: 1.8;
+      font-size: 16px; color: var(--text2); line-height: 1.8;
       border-top: 1px solid var(--border);
     }
     .faq-item.open .faq-a { display: block; }
-    .faq-a p + p { margin-top: .6rem; }
-    .faq-a code { font-size: .82em; }
+    .faq-a p + p { margin-top: 0.8rem; }
+    .faq-a code {
+      font-size: 0.9em;
+      background: var(--surface);
+      padding: 2px 8px;
+      border-radius: 6px;
+    }
     .faq-section-title {
-      font-family: var(--font-display); font-size: 1.1rem;
-      font-weight: 600; color: var(--text2);
-      margin: 2rem 0 .8rem; padding-left: 4px;
+      font-family: var(--font-display); font-size: 1.35rem;
+      font-weight: 700; color: var(--text2);
+      margin: 2.5rem 0 1rem; padding-left: 4px;
+      letter-spacing: -0.3px;
+    }
+    .faq-section-title:first-of-type {
+      margin-top: 0;
+    }
+    pre {
+      margin: 0.8rem 0;
+      font-size: 13px;
+      padding: 1rem 1.2rem;
     }
   </style>
 </head>
 <body>
   <div id="nav-placeholder"></div>
   <main>
-    <h1 style="font-family:var(--font-display);font-size:2rem;font-weight:800;letter-spacing:-.5px;margin-bottom:.4rem">Частые вопросы</h1>
-    <p style="color:var(--text2);margin-bottom:2.5rem">Всё что нужно знать об инструменте</p>
+    <h1 style="font-family:var(--font-display);font-size:2.5rem;font-weight:800;letter-spacing:-1px;margin-bottom:.6rem">Частые вопросы</h1>
+    <!-- <p style="color:var(--text2);margin-bottom:2.5rem">Полезная информация</p> -->
 
     <p class="faq-section-title">Общие вопросы</p>
 
@@ -54,7 +68,18 @@
       </button>
       <div class="faq-a">
         <p>Это символы, которые не отображаются визуально в тексте, но занимают место в кодировке. </p>
-        <p>Примеры: <code>U+200B</code> (нулевой пробел), <code>U+FEFF</code> (метка порядка байт), <code>U+00AD</code> (мягкий перенос). Они есть в строке, но их не увидеть.</p>
+        <p>Примеры: <code>U+200B</code> (нулевой пробел), <code>U+FEFF</code> (метка порядка байт), <code>U+00AD</code> (мягкий перенос), <code>U+E0100</code> (вариантный селектор 17). Они есть в строке, но их не увидеть.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggle(this)">
+        Что такое Variation selectors block?
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-a">
+        <p>Это блок специальных символов-модификаторов.</p>
+        <p>Вариантный селектор всегда идёт после базового символа, используется для его альтернативного варианта отображения. </p>
       </div>
     </div>
 
@@ -76,7 +101,7 @@
       </button>
       <div class="faq-a">
         <p>Для обычного чтения — ничем. Проблемы возникают, когда текст используется программно:</p>
-        <p>1. Сравнение строк даёт неожиданный результат (<code>"привет" != "привет"</code>)</p>
+        <p>1. Сравнение строк даёт неожиданный результат (<code>"привет" ≠ "привет"</code>)</p>
         <p>2. Поиск не находит слово</p>
         <p>3. CSV или JSON парсится с ошибкой</p>
         <p>4. Код не работает, если символ попал в имя переменной</p>
@@ -111,7 +136,7 @@
         <span class="faq-icon">+</span>
       </button>
       <div class="faq-a">
-        <p>Генератор добавляет невидимые символы рядом с обычными. Вероятность вставки задаётся ползунком «Интенсивность» (например, при значении 3 — 3%).</p>
+        <p>Генератор добавляет невидимые символы рядом с обычными. Вероятность вставки задаётся ползунком «Интенсивность» (например, при значении 3 — 30%), длина вставки определяется случайно от 1 до 5 символов.</p>
         <p>Используется для тестирования детектора.</p>
       </div>
     </div>
@@ -126,8 +151,10 @@
       <div class="faq-a">
         <p>Подключите файл <code>detector.js</code> и используйте глобальный объект <code>window.Detector</code>:</p>
         <pre>const result = Detector.analyzeText(myText);
-const clean  = Detector.removeInvisible(myText);
-const html   = Detector.highlightInvisible(myText);</pre>
+const clean = Detector.removeInvisible(myText);
+const html = Detector.highlightInvisible(myText);
+const encoded_text = Detector.encode(mySymbol, myText);
+const decoded_text = Detector.decode(myText);</pre>
       </div>
     </div>
 
@@ -139,14 +166,14 @@ const html   = Detector.highlightInvisible(myText);</pre>
       <div class="faq-a">
         <p>Откройте <code>js/detector.js</code> и добавьте запись в массив <code>INVISIBLE_CHARS</code>:</p>
         <pre>{ code: 'U+XXXX', name: 'Название', char: '\uXXXX', severity: 'high' }</pre>
-        <p>Значения <code>severity</code>: <code>high</code>, <code>medium</code>, <code>low</code></p>
+        <p>Значения <code>severity</code>: <code>highest</code>, <code>high</code>, <code>medium</code>, <code>low</code></p>
       </div>
     </div>
 
     <hr>
   </main>
   <footer>
-    <p>InvisibleDetector · <a href="index.html">Главная</a> · <a href="invisible-detector.html">Детектор</a></p>
+    <p>InvisibleDetector · <a href="index.html">Главная</a> · <a href="decode.html">Детектор</a></p>
   </footer>
   <script src="js/nav.js"></script>
   <script src="js/main.js"></script>

@@ -25,7 +25,15 @@
             justify-content: space-between; margin-bottom: 8px; flex-wrap: wrap; gap: 8px;
         }
         .toolbar-label { font-size: 13px; color: var(--text2); font-weight: 500; }
-        .btn-row { display: flex; gap: 8px; flex-wrap: wrap; }
+        .btn-row { display: flex; width: 100%; gap: 8px; flex-wrap: wrap; }
+        .toolbar .btn-row .btn {
+            flex: 1;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            text-align: center;
+        }
         .editor-wrap { position: relative; }
         .char-count {
             position: absolute; bottom: 10px; right: 12px;
@@ -92,11 +100,6 @@
         input[type=range] { flex: 1; min-width: 100px; accent-color: var(--accent2); }
         #noiseLbl { font-size: 13px; font-weight: 500; font-family: var(--font-mono); min-width: 20px; }
         .empty-state { text-align: center; padding: 1.5rem; color: var(--text3); font-size: 13px; }
-        /* для кнопок сбоку от текста */
-        .editor-with-side-buttons { display: flex; gap: 12px; align-items: flex-start; }
-        .editor-with-side-buttons .editor-wrap { flex: 1;}
-        .side-buttons { display: flex; flex-direction: column; gap: 8px; justify-content: center; }
-        .side-buttons .btn { white-space: nowrap; min-height: 57px; }
         .editable-area {
             background: var(--bg2);
             border: 1px solid var(--border);
@@ -131,30 +134,27 @@
 
     <!-- INPUT -->
     <div class="toolbar">
-        <span class="toolbar-label" id="inputLabel">Введите или вставьте текст</span>
-        <div class="btn-row">
-            <a href="#" class="btn" style="color:var(--text);border-color:rgba(232,65,122,.25)" onclick="navigateWithText()">Декодер</a>
-            <button class="btn" style="color:var(--text);border-color:rgba(232,65,122,.25)" onclick="loadSample()">Пример текста</button>
-            <button class="btn" style="color:var(--accent);border-color:rgba(232,65,122,.25)" onclick="clearAll()">Очистить</button>
-            <button id="btnPaste" class="btn">
+        <!--<span class="toolbar-label" id="inputLabel">Введите или вставьте текст</span>-->
+        <div class="btn-row" style="width: 100%;">
+            <!--<a href="#" class="btn" style="color:var(--text);border-color:rgba(232,65,122,.25)" onclick="navigateWithText()">Декодер</a>-->
+            <button class="btn" style="flex: 1; color:var(--text);border-color:rgba(232,65,122,.25)" onclick="loadSample()">Пример текста</button>
+            <button class="btn" style="flex: 1; color:var(--accent);border-color:rgba(232,65,122,.25)" onclick="clearAll()">Очистить</button>
+            <!--<button id="btnPaste" class="btn">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 5px; vertical-align: middle;">
                     <rect x="9" y="9" width="13" height="13" rx="2"/>
                     <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
                 </svg>
                 Вставить
-            </button>
+            </button>-->
+
+            <button class="btn" style="flex: 1;" onclick="insertHiddenSymbol()">Вставить символ</button> <!-- Передвинул пока сюда кнопки -->
+            <button class="btn" style="flex: 1;" onclick="encodeCurrentSelection()">Закодировать</button>
+            <button class="btn" style="flex: 1;" onclick="decodeSelectedText()">Раскодировать</button>
         </div>
     </div>
-    <div class="editor-with-side-buttons">
-        <div class="editor-wrap"> <!-- Сделай то же самое в декодере-->
-            <div id="inputText" class="editable-area" contenteditable="true" role="textbox" aria-multiline="true" data-placeholder="Вставьте текст из источника..." oninput="onInput()"></div>
-            <span class="char-count" id="charCount">0</span>
-        </div>
-        <div class="side-buttons">
-            <button class="btn" onclick="insertHiddenSymbol()">Вставить символ</button>
-            <button class="btn" onclick="encodeCurrentSelection()">Закодировать текст</button>
-            <button class="btn" onclick="decodeSelectedText()">раскодировать текст</button>
-        </div>
+    <div class="editor-wrap"> <!-- Сделай то же самое в декодере-->
+        <div id="inputText" class="editable-area" contenteditable="true" role="textbox" aria-multiline="true" data-placeholder="Вставьте текст из источника..." oninput="onInput()"></div>
+        <span class="char-count" id="charCount">0</span>
     </div>
 
     <!-- STATS -->
@@ -211,7 +211,7 @@
         <span id="noiseLbl">3</span>
     </div>
     <div class="btn-row">
-        <button class="btn" onclick="doAddHiddenNoise()">Добавить шум текст</button>нейминг говна, конечно,
+        <button class="btn" onclick="doAddHiddenNoise()">Добавить шум текст</button>
         <button class="btn" onclick="doAddSymbolNoise()">Добавить шум символы</button>
     </div>
 </main>
@@ -227,10 +227,20 @@
     const D = window.Detector;
     let currentText = '';
 
+    function getTextFromContentEditable(element) { // contenteditable вместо \n имеет <br> или <div>, так что чтобы это отображалось в подсчете - поменяем обратно.
+        const clone = element.cloneNode(true);
+        clone.querySelectorAll('br, div, p').forEach(el => {
+            const textNode = document.createTextNode('\n');
+            el.parentNode.replaceChild(textNode, el);
+        });
+        
+        return clone.textContent;
+    }
+
     function onInput() {
         const editable = document.getElementById('inputText');
-        let text = editable.textContent || '';
-        
+        let text = getTextFromContentEditable(editable);
+
         if (!text || text.trim() === '') {
             const hasVisibleContent = Array.from(editable.childNodes).some(node => {
                 if (node.nodeType === Node.TEXT_NODE && node.textContent.trim() !== '') return true;
@@ -242,7 +252,7 @@
                 editable.innerHTML = '';
             }
         }
-        
+
         currentText = text;
         document.getElementById('charCount').textContent = (currentText.length || 0) + ' симв.';
         render(D.analyzeText(currentText || ''));
@@ -285,7 +295,7 @@
 
     function loadSample() {
         const editable = document.getElementById('inputText');
-        editable.innerText = D.generateNoisySample(); 
+        editable.innerText = D.generateNoisySample();
         onInput();
     }
 
@@ -345,20 +355,20 @@
     }
 
     function insertHiddenSymbol() {
-        if (!currentText) { 
-            showToast('Сначала введите текст', 'error'); 
-            return; 
+        if (!currentText) {
+            showToast('Сначала введите текст', 'error');
+            return;
         }
-        
+
         const editable = document.getElementById('inputText');
         const selection = window.getSelection();
-        
+
         if (selection.rangeCount > 0) {
             const range = selection.getRangeAt(0);
             const symbol = D.getRandomHighSeverityChar();
-            
+
             const textNode = document.createTextNode(symbol);
-            
+
             range.deleteContents();
             range.insertNode(textNode);
 
@@ -366,7 +376,7 @@
             range.setEndAfter(textNode);
             selection.removeAllRanges();
             selection.addRange(range);
-            
+
             editable.focus();
             onInput();
             showToast('Скрытый символ добавлен');
@@ -374,13 +384,13 @@
             const symbol = D.getRandomHighSeverityChar();
             const textNode = document.createTextNode(symbol);
             editable.appendChild(textNode);
-            
+
             const range = document.createRange();
             range.selectNodeContents(editable);
             range.collapse(false);
             selection.removeAllRanges();
             selection.addRange(range);
-            
+
             editable.focus();
             onInput();
             showToast('Скрытый символ добавлен в конец');
@@ -397,33 +407,33 @@
     function encodeCurrentSelection() {
         const editable = document.getElementById('inputText');
         const selection = window.getSelection();
-        
+
         if (!selection.rangeCount || !editable.contains(selection.anchorNode)) {
             showToast("Текст не выделен");
             return null;
         }
-        
+
         const range = selection.getRangeAt(0);
-        const selectedText = range.toString(); 
+        const selectedText = D.decode(range.toString());
         const startNode = range.startContainer;
         const startOffset = range.startOffset;
-        
+
         if (!selectedText) {
             showToast("Текст не выделен");
             return null;
         }
 
         const precedingSymbol = startNode.textContent[startOffset - 1];
-        const encoded = D.encode(precedingSymbol, selectedText);
-        
+        const encoded = D.encode( precedingSymbol, selectedText );
+
 
         const extendedRange = document.createRange();
-        extendedRange.setStart(startNode, startOffset - 1); 
+        extendedRange.setStart(startNode, startOffset - 1);
         extendedRange.setEnd(range.endContainer, range.endOffset);
         extendedRange.deleteContents();
         const textNode = document.createTextNode(encoded);
         extendedRange.insertNode(textNode);
-        
+
         onInput();
     }
 
@@ -438,16 +448,26 @@
 
         const range = selection.getRangeAt(0);
         const selectedText = range.toString();
-        const startNode = range.startContainer;
-        const startOffset = range.startOffset;
 
         if (!selectedText) {
             showToast("Текст не выделен");
             return null;
         }
 
-        editable.innerText = D.decode( currentText );
+        const decodedText = D.decode(selectedText);
+        
+        range.deleteContents();
+        const textNode = document.createTextNode(decodedText);
+        range.insertNode(textNode);
+        
+        range.setStartAfter(textNode);
+        range.setEndAfter(textNode);
+        selection.removeAllRanges();
+        selection.addRange(range);
+        
+        editable.focus();
         onInput();
+        showToast("Выделенный текст раскодирован");
     }
 
     window.addEventListener('DOMContentLoaded', function() {
