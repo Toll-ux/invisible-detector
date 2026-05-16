@@ -10,12 +10,14 @@
   --border2: rgba(255,255,255,0.13);
   --text: #f0eff4;
   --text2: #7bffe9c7;
-  --text3: #5c5a6e;
+  --text3: #e9e6ff;
   --accent: #e84187;
   --accent2: #9b83fd;
   --accent3: #bafd00;
   --accent4: #3b3d3d;
   --warn: #f59e0b;
+  --primary: #7bffe9;
+  --primary-hover: #bafd00;
   --font-display: 'Syne', sans-serif;
   --font-body: 'DM Sans', sans-serif;
   --font-mono: 'DM Mono', monospace;

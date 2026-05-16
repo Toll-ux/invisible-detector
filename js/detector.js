@@ -255,6 +255,7 @@ window.Detector = {
   addSymbolNoise,//нейминг говна, конечно
   addMessageNoise,//нейминг говна, конечно
   copyToClipboard,
+  getrandomhighseveritychar,
   encode,
   decode,
 };

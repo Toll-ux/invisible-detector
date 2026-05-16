@@ -55,78 +55,78 @@
   </style>
 </head>
 <body>
-  <div id="nav-placeholder"></div>
+<div id="nav-placeholder"></div>
 
-  <main>
-    <section class="hero">
-      <h1>InvisibleDetector</h1>
-      <h2>Ведьмочки с ключом на 9</h2>
-      <p>Анализируем текст на наличие невидимых символов, а также добавляем их</p>
-      <div class="hero-actions">
-        <a href="invisible-detector.html" class="btn btn-primary">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
-          detector
-        </a>
-	      <a href="faq.html" class="btn">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
-          faq
-        </a>
-      </div>
-    </section>
+<main>
+  <section class="hero">
+    <h1>InvisibleDetector</h1>
+    <h2>Ведьмочки с ключом на 9</h2>
+    <p>Анализируем текст на наличие невидимых символов, а также добавляем их</p>
+    <div class="hero-actions">
+      <a href="invisible-detector.html" class="btn btn-primary">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+        detector
+      </a>
+      <a href="faq.html" class="btn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+        faq
+      </a>
+    </div>
+  </section>
 
-    <div class="grid-2">
+  <div class="grid-2">
 
-      <div class="card">
-        <h3><code>U+E0100</code></h3>
-        <p><strong>Variation Selector-17 (VS17)</strong></p>
-        <p class="tag tag-danger">Самая высокая опасность</p>
-        <div class="tags-container">
-          <span>Источники: копипаст, редакторы</span>
-        </div>
-      </div>
-
-      <div class="card">
-        <h3><code>U+200B</code></h3>
-        <p><strong>Нулевой пробел (ZWSP)</strong></p>
-        <p class="tag tag-red">Высокая опасность</p>
-        <div class="tags-container">
-          <span>Источники: LLM, копипаст, редакторы</span>
-        </div>
-      </div>
-
-      <div class="card">
-        <h3><code>U+00AD</code></h3>
-        <p><strong>Мягкий перенос (SHY)</strong></p>
-        <p class="tag tag-warn">Средняя опасность</p>
-        <div class="tags-container">
-          <span>Источники: текстовые редакторы</span>
-        </div>
-      </div>
-
-      <div class="card">
-        <h3><code>U+2013</code></h3>
-        <p><strong>Среднее тире (En dash)</strong></p>
-        <p class="tag tag-purple">Низкая опасность</p>
-        <div class="tags-container">
-          <span>Источники: LLM, типографика</span>
-        </div>
+    <div class="card">
+      <h3><code>U+E0100</code></h3>
+      <p><strong>Variation Selector-17 (VS17)</strong></p>
+      <p class="tag tag-danger">Самая высокая опасность</p>
+      <div class="tags-container">
+        <span>Источники: копипаст, редакторы</span>
       </div>
     </div>
 
-    <div class="floating-group-info">
-      <h4>МЕН-150206</h4>
-      <ul>
-        <li>Алексеев Георгий</li>
-        <li>Власов Елисей</li>
-        <li>Долгушин Константин</li>
-        <li>Мальцев Дмитрий</li>
-        <li>Мухачёв Александр</li>
-      </ul>
+    <div class="card">
+      <h3><code>U+200B</code></h3>
+      <p><strong>Нулевой пробел (ZWSP)</strong></p>
+      <p class="tag tag-red">Высокая опасность</p>
+      <div class="tags-container">
+        <span>Источники: LLM, копипаст, редакторы</span>
+      </div>
     </div>
-    
-  </main>
 
-  <script src="js/nav.js"></script>
-  <script src="js/main.js"></script>
+    <div class="card">
+      <h3><code>U+00AD</code></h3>
+      <p><strong>Мягкий перенос (SHY)</strong></p>
+      <p class="tag tag-warn">Средняя опасность</p>
+      <div class="tags-container">
+        <span>Источники: текстовые редакторы</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3><code>U+2013</code></h3>
+      <p><strong>Среднее тире (En dash)</strong></p>
+      <p class="tag tag-purple">Низкая опасность</p>
+      <div class="tags-container">
+        <span>Источники: LLM, типографика</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="floating-group-info">
+    <h4>МЕН-150206</h4>
+    <ul>
+      <li>Алексеев Георгий</li>
+      <li>Власов Елисей</li>
+      <li>Долгушин Константин</li>
+      <li>Мальцев Дмитрий</li>
+      <li>Мухачёв Александр</li>
+    </ul>
+  </div>
+
+</main>
+
+<script src="js/nav.js"></script>
+<script src="js/main.js"></script>
 </body>
 </html>

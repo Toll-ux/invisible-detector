@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Кодер — Ведьмочки с ключом на 9</title>
+    <title>Детектор - Ведьмочки с ключом на 9</title>
     <link rel="stylesheet" href="css/style.css">
     <style>
         textarea#inputText { min-height: 190px; line-height: 1.7; }
@@ -96,10 +96,10 @@
             padding: 14px 16px;
             background: var(--bg3); border: 1px solid var(--border); border-radius: var(--radius);
         }
-        .noise-row label { font-size: 13px; color: var(--text2); }
+        .noise-row label { font-size: 17px; color: var(--text2); }
         input[type=range] { flex: 1; min-width: 100px; accent-color: var(--accent2); }
         #noiseLbl { font-size: 13px; font-weight: 500; font-family: var(--font-mono); min-width: 20px; }
-        .empty-state { text-align: center; padding: 1.5rem; color: var(--text3); font-size: 13px; }
+        .empty-state { text-align: center; padding: 1.5rem; color: var(--text3); font-size: 16px; }
         .editable-area {
             background: var(--bg2);
             border: 1px solid var(--border);
@@ -161,7 +161,7 @@
     <div class="stat-grid">
         <div class="stat-card"><div class="stat-val c-purple" id="sTotal">0</div><div class="stat-lbl">Всего</div></div>
         <div class="stat-card"><div class="stat-val c-red"    id="sInvis">0</div><div class="stat-lbl">Невидимых</div></div>
-        <div class="stat-card"><div class="stat-val c-blue"   id="sHidden">0</div><div class="stat-lbl">Спрятанных</div></div>
+        <div class="stat-card"><div class="stat-val c-blue"   id="sHidden">0</div><div class="stat-lbl">Variation Selector</div></div>
         <div class="stat-card"><div class="stat-val c-warn"   id="sTypes">0</div><div class="stat-lbl">Типов</div></div>
         <div class="stat-card"><div class="stat-val c-teal"   id="sClean">0</div><div class="stat-lbl">Чистых</div></div>
     </div>
@@ -177,7 +177,7 @@
     </div>
 
     <!-- FOUND LIST -->
-    <p style="font-size:12px;color:var(--text3);font-weight:500;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">Обнаруженные символы</p>
+    <p style="font-family:var(--font-display);font-size:1.5rem;font-weight:600;letter-spacing:-.5px;margin-bottom:.2rem">Обнаруженные символы</p>
     <div class="found-list" id="foundList">
         <div class="empty-state">Введите текст для анализа</div>
     </div>
@@ -203,16 +203,16 @@
     <hr>
 
     <!-- NOISE GENERATOR -->
-    <p style="font-family:var(--font-display);font-size:1.1rem;font-weight:600;margin-bottom:.4rem">Генератор шума</p>
-    <p style="font-size:.9rem;color:var(--text2);margin-bottom:1rem">Добавляет случайные невидимые символы для тестирования детектора</p>
-    <div class="noise-row" style="margin-bottom:1rem">
+    <p style="font-family:var(--font-display);font-size:1.5rem;font-weight:600;letter-spacing:-.5px;margin-bottom:.2rem">Генератор шума</p>
+    <p style="font-size:1.1rem;color:var(--text2);margin-bottom:1rem">Добавляет случайные невидимые символы для тестирования детектора</p>
+    <div class="noise-row" style="margin-bottom:1.1rem">
         <label>Интенсивность</label>
         <input type="range" min="1" max="10" value="3" id="noiseRange" oninput="document.getElementById('noiseLbl').textContent=this.value">
         <span id="noiseLbl">3</span>
     </div>
     <div class="btn-row">
-        <button class="btn" onclick="doAddHiddenNoise()">Добавить шум текст</button>
-        <button class="btn" onclick="doAddSymbolNoise()">Добавить шум символы</button>
+        <button class="btn" onclick="doAddHiddenNoise()">Добавить Variation Selector</button>
+        <button class="btn" onclick="doAddSymbolNoise()">Добавить ZWSP</button>
     </div>
 </main>
 
@@ -233,7 +233,7 @@
             const textNode = document.createTextNode('\n');
             el.parentNode.replaceChild(textNode, el);
         });
-        
+
         return clone.textContent;
     }
 
@@ -455,16 +455,16 @@
         }
 
         const decodedText = D.decode(selectedText);
-        
+
         range.deleteContents();
         const textNode = document.createTextNode(decodedText);
         range.insertNode(textNode);
-        
+
         range.setStartAfter(textNode);
         range.setEndAfter(textNode);
         selection.removeAllRanges();
         selection.addRange(range);
-        
+
         editable.focus();
         onInput();
         showToast("Выделенный текст раскодирован");

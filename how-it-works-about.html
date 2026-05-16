@@ -23,7 +23,7 @@
     }
     .av1 { background: rgba(232,65,122,.15); color: var(--accent); }
     .av2 { background: rgba(124,92,252,.15); color: #a88cff; }
-    .av3 { background: rgba(62,207,176,.15);  color: var(--accent3); }
+    .av3 { background: rgba(62,207,176,.15);  color: #62fde8; }
     .av4 { background: rgba(253, 37, 37, 0.15);  color: #e6353e; }
     .av5 { background: rgba(132,204,22,.15);  color: #a3e635; }
     .team-name { font-weight: 600; font-size: .95rem; margin-bottom: 2px; }
@@ -100,7 +100,7 @@
 <body>
 <div id="nav-placeholder"></div>
 <main>
-  <!-- Hero блок общий 
+  <!-- Hero блок общий
   <h1 style="font-family:var(--font-display);font-size:2rem;font-weight:800;letter-spacing:-.5px;margin-bottom:.4rem">О проекте и как работает</h1>
   <p style="color:var(--text2);margin-bottom:2.5rem">Задача проекта, команда реализующая проект и как работать с инструментом</p>
 -->
@@ -183,7 +183,7 @@
 
   <!-- ==================== БЛОК 4: АЛГОРИТМ ЗА 4 ШАГА (из how-it-works) ==================== -->
   <section style="margin-bottom:3rem">
-    <h2 class="section-title">Как работает Декодер</h2>
+    <h2 class="section-title">Как работает Детектор</h2>
 
     <div class="step">
       <div class="step-num sn-red">1</div>
@@ -206,7 +206,19 @@
     </div>
 
     <div class="step">
-      <div class="step-num sn-teal">3</div>
+      <div class="step-num sn-red">3</div>
+      <div>
+        <h3>О работе функций toVariationSelector, encode</h3>
+        <p>Функция<code>toVariationSelector</code> преобразует один байт(число от 0 до 255) в невидимый символ - вариационный селектор(Variation Selector).
+          Эти символы не отображаются и не влияют на визуальное представление текста, что идеально для сокрытия данных. Функия <code>encode</code>
+          Встраивает произвольное текстовое сообщение <code>text</code> в виде последовательности невидимых вариационных селекторов,
+          прикреплённых к заданному символу-носителю <code>symbol</code>. Результат - строка, визуально неотличимая от исходного <code>symbol</code>,
+          но содержащая скрытые данные.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num sn-teal">4</div>
       <div>
         <h3>Вывод результата</h3>
         <p>Формируем текст без невидимых символов и статистику: сколько символов всего, сколько невидимых, каких типов и сколько раз каждый встретился.</p>
@@ -253,8 +265,7 @@
       <p class="color:var(--text);section-sub">Что за что отвечает</p>
       <div class="stack-grid">
         <div class="stack-item"><div class="stack-file">index.html</div><div class="stack-desc">Главная страница, лендинг</div></div>
-        <div class="stack-item"><div class="stack-file">decode.html</div><div class="stack-desc">Декодировать нужный текст</div></div>
-        <div class="stack-item"><div class="stack-file">encode.html</div><div class="stack-desc">Закодировать нужный текст</div></div>
+        <div class="stack-item"><div class="stack-file">invisible-detector.html</div><div class="stack-desc">Детектор</div></div>
         <div class="stack-item"><div class="stack-file">how-it-works-about.html</div><div class="stack-desc">Информация про команду и объяснение алгоритмов</div></div>
         <div class="stack-item"><div class="stack-file">faq.html</div><div class="stack-desc">Частые вопросы</div></div>
 
@@ -282,7 +293,7 @@
       <a href="https://github.com/Toll-ux/invisible-detector" class="btn" style="background: var(--bg2);"><img src="icons8-github-24.svg" width="20" height="24" alt="GitHub">
         GitHub репозиторий</a>
     </div>
-  </main>
+</main>
 <footer>
   <p>InvisibleDetector · <a href="https://rutube.ru/video/c6cc4d620b1d4338901770a44b3e82f4">FAQ</a>
 </footer>
