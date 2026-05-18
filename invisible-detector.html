@@ -220,11 +220,325 @@
     <p>InvisibleDetector · <a href="index.html">Главная</a> · <a href="how-it-works-about.html">О проекте</a></p>
 </footer>
 
-<script src="js/nav.js"></script>
-<script src="js/main.js"></script>
-<script src="js/detector.js"></script>
 <script>
-    const D = window.Detector;
+
+    //Тут прямо все мясо
+
+    // Variation selectors block https://unicode.org/charts/nameslist/n_FE00.html
+    // VS1..=VS16
+    const VARIATION_SELECTOR_START = 0xfe00;
+    const VARIATION_SELECTOR_END = 0xfe0f;
+
+    // Variation selectors supplement https://unicode.org/charts/nameslist/n_E0100.html
+    // VS17..=VS256
+    const VARIATION_SELECTOR_SUPPLEMENT_START = 0xe0100;
+    const VARIATION_SELECTOR_SUPPLEMENT_END = 0xe01ef;
+
+    function toVariationSelector(byte) {
+        if (byte >= 0 && byte < 16) {
+            return String.fromCodePoint(VARIATION_SELECTOR_START + byte)
+        } else if (byte >= 16 && byte < 256) {
+            return String.fromCodePoint(VARIATION_SELECTOR_SUPPLEMENT_START + byte - 16)
+        } else {
+            return null
+        }
+    }
+
+    function fromVariationSelector(codePoint) {
+        if (codePoint >= VARIATION_SELECTOR_START && codePoint <= VARIATION_SELECTOR_END) {
+            return codePoint - VARIATION_SELECTOR_START
+        } else if (codePoint >= VARIATION_SELECTOR_SUPPLEMENT_START && codePoint <= VARIATION_SELECTOR_SUPPLEMENT_END) {
+            return codePoint - VARIATION_SELECTOR_SUPPLEMENT_START + 16
+        } else {
+            return null
+        }
+    }
+
+    function encode(symbol, text) {
+        // convert the string to utf-8 bytes
+        const bytes = new TextEncoder().encode(text)
+        let encoded = symbol
+
+        for (const byte of bytes) {
+            encoded += toVariationSelector(byte)
+        }
+
+        return encoded
+    }
+
+    function decode(text) {
+        let result = []
+        let currentByteBlock = []
+        const chars = Array.from(text)
+
+        for (const char of chars) {
+            const codePoint = char.codePointAt(0);
+            const byte = fromVariationSelector(codePoint);
+
+            if (byte !== null) {
+                currentByteBlock.push(byte)
+            } else {
+                if (currentByteBlock.length > 0) {
+                    const decodedArray = new Uint8Array(currentByteBlock)
+                    result.push(new TextDecoder().decode(decodedArray))
+                    currentByteBlock = []
+                }
+                result.push(char)
+            }
+        }
+
+        if (currentByteBlock.length > 0) {
+            const decodedArray = new Uint8Array(currentByteBlock)
+            result.push(new TextDecoder().decode(decodedArray))
+        }
+
+        return result.join('')
+    }
+
+    const ALPHABET = [
+        'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O',
+        'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
+        'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o',
+        'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
+        '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+    ];
+
+    // Table of invisible symbols
+    /*Очень важно помнить, что 'VS1..=VS256' - не 1 объект!!!!, поэтому char: null
+    * Наверно это не правильное решение, но я не знаю, как по-другому*/
+    const INVISIBLE_CHARS = [
+        { code: 'VS1..=VS256', name: 'Variation selectors block',     char:  null,    severity: 'highest' }, // обратить пристальное!!!!!!!
+        { code: 'U+200B', name: 'Нулевой пробел (ZWSP)',              char: '\u200B', severity: 'high' },
+        { code: 'U+200C', name: 'Объединитель нулевой ширины (ZWNJ)', char: '\u200C', severity: 'high' },
+        { code: 'U+200D', name: 'Соединитель нулевой ширины (ZWJ)',   char: '\u200D', severity: 'high' },
+        { code: 'U+FEFF', name: 'Метка порядка байт / BOM',           char: '\uFEFF', severity: 'high' },
+        { code: 'U+2060', name: 'Соединитель слов',                   char: '\u2060', severity: 'high' },
+        { code: 'U+00AD', name: 'Мягкий перенос (SHY)',               char: '\u00AD', severity: 'medium' },
+        { code: 'U+00A0', name: 'Неразрывный пробел (NBSP)',          char: '\u00A0', severity: 'medium' },
+        { code: 'U+2028', name: 'Разделитель строк',                  char: '\u2028', severity: 'medium' },
+        { code: 'U+2029', name: 'Разделитель абзацев',                char: '\u2029', severity: 'medium' },
+        { code: 'U+180E', name: 'Разделитель монгольских гласных',    char: '\u180E', severity: 'medium' },
+        { code: 'U+2061', name: 'Применение функции',                 char: '\u2061', severity: 'medium' },
+        { code: 'U+2062', name: 'Невидимый знак умножения',           char: '\u2062', severity: 'medium' },
+        { code: 'U+2063', name: 'Невидимый разделитель',              char: '\u2063', severity: 'medium' },
+        { code: 'U+2064', name: 'Невидимый знак плюс',                char: '\u2064', severity: 'medium' },
+        { code: 'U+034F', name: 'Комбинируемый заполнитель CGJ',      char: '\u034F', severity: 'medium' },
+        { code: 'U+3164', name: 'Заполнитель Хангыль',                char: '\u3164', severity: 'medium' },
+        { code: 'U+FFA0', name: 'Полуширокий заполнитель Хангыль',    char: '\uFFA0', severity: 'medium' },
+        { code: 'U+2014', name: 'Длинное тире (Em dash)',             char: '\u2014', severity: 'low' },
+        { code: 'U+2013', name: 'Среднее тире (En dash)',             char: '\u2013', severity: 'low' },
+    ];
+
+    const NOISE_POOL = INVISIBLE_CHARS.filter(s => s.severity === 'high').map(s => s.char);
+
+    function analyzeText(text) {
+        const stats = new Map();
+        let totalInv = 0;
+        let totalHid = 0;
+
+        for (const ch of text) {
+            const symMatch = INVISIBLE_CHARS.find(s => s.char === ch);
+            if (symMatch) {
+                totalInv++;
+                const existing = stats.get(symMatch.char);
+                stats.set(symMatch.char, {
+                    ...symMatch,
+                    count: (existing?.count || 0) + 1
+                });
+            }
+
+            const codePoint = ch.codePointAt(0);
+            const byte = fromVariationSelector(codePoint);
+            if (byte !== null) {
+                totalHid++;
+                const vsKey = 'VS1..=VS256';
+                const existingVS = stats.get(vsKey);
+                const vsMeta = INVISIBLE_CHARS.find(s => s.code === vsKey);
+                stats.set(vsKey, {...vsMeta, count: (existingVS?.count || 0) + 1});
+            }
+        }
+
+        const found = Array.from(stats.values()).sort((a, b) => b.count - a.count);
+        const textLength = [...text].length;
+        const isHidden = totalHid !== 0 ? 1 : 0;
+
+        return {
+            totalChars: textLength, totalInv, totalHid,
+            typesFound: found.length + isHidden,
+            cleanChars: textLength - totalInv - totalHid,
+            found: found,
+            isClean: found.length === 0,
+        };
+    }
+
+
+    function removeInvisible(text) {
+        let result = '';
+        for (const ch of text) {
+            const isInvisible = INVISIBLE_CHARS.some(sym => sym.char === ch);
+            const codePoint = ch.codePointAt(0);
+            const byte = fromVariationSelector(codePoint);
+
+            if (!isInvisible && byte == null) {
+                result += ch;
+            }
+        }
+        return result;
+    }
+
+
+    function highlightInvisible(text) {
+        let html = '';
+        let hiddenBuffer = [];
+
+        const chars = [...text];
+
+        for (let i = 0; i < chars.length; i++) {
+            const ch = chars[i];
+            const codePoint = ch.codePointAt(0);
+            const byte = fromVariationSelector(codePoint);
+
+            if (byte !== null) {
+                hiddenBuffer.push(byte);
+                const nextByte = i + 1 < chars.length ? fromVariationSelector(chars[i+1].codePointAt(0)) : null;
+                if (nextByte === null) {
+                    const decoded = new TextDecoder().decode(new Uint8Array(hiddenBuffer));
+                    html += `<mark class="hi-blue" title="Скрытые данные">${decoded}</mark>`;
+                    hiddenBuffer = [];
+                }
+                continue;
+            }
+
+            const sym = INVISIBLE_CHARS.find(s => s.char === ch);
+            if (sym) {
+                const cls = sym.severity === 'high' ? 'hi-red' : sym.severity === 'medium' ? 'hi-warn' : 'hi-blue';
+                html += `<mark class="${cls}" title="${sym.name}">${sym.code}</mark>`;
+            } else {
+                html += ch === '<' ? '&lt;' : ch === '>' ? '&gt;' : ch === '&' ? '&amp;' : ch;
+            }
+        }
+        return html;
+    }
+
+
+    function addSymbolNoise(text, intensity = 0.1) {
+        return [...text].map(ch => {
+            const codePoint = ch.codePointAt(0);
+            const isVS = fromVariationSelector(codePoint) !== null;
+            const isInvis = INVISIBLE_CHARS.some(s => s.char === ch);
+            if (Math.random() < intensity && !isVS && !isInvis) {
+                const noise = NOISE_POOL[Math.floor(Math.random() * NOISE_POOL.length)];
+                return ch + (noise || '');
+            }
+            return ch;
+        }).join('');
+    }
+
+
+    function addMessageNoise(text, intensity = 0.1, length = 5) {
+        return [...text].map(ch => {
+            const codePoint = ch.codePointAt(0);
+            const isVS = fromVariationSelector(codePoint) !== null;
+            const isInvis = INVISIBLE_CHARS.some(s => s.char === ch);
+
+            if (Math.random() < intensity && !isVS && !isInvis) {
+                const iterations = Math.floor(Math.random() * length) + 1;
+                let noiseText = '';
+                for (let i = 0; i < iterations; i++) {
+                    noiseText += ALPHABET[Math.floor(Math.random() * ALPHABET.length)];
+                }
+                return encode(ch, noiseText);
+            }
+            return ch;
+        }).join('');
+    }
+
+
+    function generateNoisySample() {
+        const base = 'Этот пример текста содержит внедрённые невидимые символы Unicode для тестирования детектора.';
+        const text = addSymbolNoise(base, 0.18);
+        return addMessageNoise(text, 0.18);
+    }
+
+    function getRandomHighSeverityChar() {
+        const highSeverity = INVISIBLE_CHARS.filter(s => s.severity === 'high');
+        return highSeverity.length ? highSeverity[Math.floor(Math.random() * highSeverity.length)].char : null;
+    }
+
+    async function copyToClipboard(text) {
+        try {
+            await navigator.clipboard.writeText(text);
+            return true;
+        } catch {
+            return false;
+        }
+    }
+
+    //вроде работает, ничего менять не стоит
+    document.addEventListener('DOMContentLoaded', () => {
+        const navHTML = `
+    <nav>
+      <a class="nav-logo" href="index.html">
+        Invisible Detector
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html">Главная</a></li>
+        <li><a href="invisible-detector.html">Детектор</a></li>
+        <li><a href="how-it-works-about.html">О проекте и работе InvisibleDetector</a></li>
+        <li><a href="faq.html">FAQ</a></li>
+      </ul>
+    </nav>
+  `;
+
+        const placeholder = document.getElementById('nav-placeholder');
+        if (placeholder) placeholder.outerHTML = navHTML;
+
+        // подсветка активной ссылки
+        const current = location.pathname.split('/').pop() || 'index.html';
+        document.querySelectorAll('.nav-links a').forEach(a => {
+            if (a.getAttribute('href') === current) a.classList.add('active');
+        });
+    });
+
+    // Подсветка активный пунктов меню
+    document.addEventListener('DOMContentLoaded', () => {
+        const current = location.pathname.split('/').pop() || 'index.html';
+        document.querySelectorAll('.nav-links a').forEach(a => {
+            const href = a.getAttribute('href');
+            if (href === current || (current === '' && href === 'index.html')) {
+                a.classList.add('active');
+            }
+        });
+    });
+
+    // Тост-уведомление
+    function showToast(msg = 'Скопировано!', type = 'success') {
+        let toast = document.getElementById('toast');
+        if (!toast) {
+            toast = document.createElement('div');
+            toast.id = 'toast';
+            toast.style.cssText = `
+      position:fixed; bottom:24px; right:24px; z-index:999;
+      padding:10px 18px; border-radius:10px; font-size:13px; font-weight:500;
+      font-family:'DM Sans',sans-serif; opacity:0; transition:opacity .25s;
+      pointer-events:none;
+    `;
+            document.body.appendChild(toast);
+        }
+        const colors = {
+            success: 'background:#3ecfb0; color:#0d2820',
+            error:   'background:#e8417a; color:#fff',
+            info:    'background:#7c5cfc; color:#fff',
+        };
+        toast.style.cssText += colors[type] || colors.success;
+        toast.textContent = msg;
+        toast.style.opacity = '1';
+        clearTimeout(toast._t);
+        toast._t = setTimeout(() => toast.style.opacity = '0', 2000);
+    }
+
+    window.showToast = showToast;
+
     let currentText = '';
 
     function getTextFromContentEditable(element) { // contenteditable вместо \n имеет <br> или <div>, так что чтобы это отображалось в подсчете - поменяем обратно.
@@ -255,7 +569,7 @@
 
         currentText = text;
         document.getElementById('charCount').textContent = (currentText.length || 0) + ' симв.';
-        render(D.analyzeText(currentText || ''));
+        render(analyzeText(currentText || ''));
     }
 
     function render(result) {
@@ -290,12 +604,12 @@
       `).join('');
 
         document.getElementById('highlightSection').style.display = 'block';
-        document.getElementById('highlightBox').innerHTML = D.highlightInvisible(currentText);
+        document.getElementById('highlightBox').innerHTML = highlightInvisible(currentText);
     }
 
     function loadSample() {
         const editable = document.getElementById('inputText');
-        editable.innerText = D.generateNoisySample();
+        editable.innerText = generateNoisySample();
         onInput();
     }
 
@@ -310,7 +624,7 @@
 
     function doRemove() {
         if (!currentText) return;
-        const clean = D.removeInvisible(currentText);
+        const clean = removeInvisible(currentText);
         const editable = document.getElementById('inputText');
         editable.innerText = clean;
         document.getElementById('cleanBox').textContent = clean;
@@ -321,11 +635,11 @@
     }
 
     async function doCopy() {
-        const ok = await D.copyToClipboard(currentText || '');
+        const ok = await copyToClipboard(currentText || '');
         showToast(ok ? 'Скопировано!' : 'Не удалось скопировать', ok ? 'success' : 'error');
     }
 
-    document.getElementById('btnPaste').addEventListener('click', async () => {
+    /*document.getElementById('btnPaste').addEventListener('click', async () => {
         try {
             const text = await navigator.clipboard.readText();
             const editable = document.getElementById('inputText');
@@ -335,14 +649,14 @@
             console.error('Не удалось прочитать буфер обмена: ', err);
             showToast('Пожалуйста, разрешите доступ к буферу обмена в браузере.', 'error');
         }
-    });
+    });*/
 
     function doAddHiddenNoise() {
         if (!currentText) { showToast('Сначала введите текст', 'error'); return; }
         const lvl = parseInt(document.getElementById('noiseRange').value) / 100;
         const num = parseInt(document.getElementById('noiseRange').value) * 5;
         const editable = document.getElementById('inputText');
-        editable.innerText = D.addMessageNoise(currentText, lvl, num);
+        editable.innerText = addMessageNoise(currentText, lvl, num);
         onInput();
     }
 
@@ -350,7 +664,7 @@
         if (!currentText) { showToast('Сначала введите текст', 'error'); return; }
         const lvl = parseInt(document.getElementById('noiseRange').value) / 100;
         const editable = document.getElementById('inputText');
-        editable.innerText = D.addSymbolNoise(currentText, lvl);
+        editable.innerText = addSymbolNoise(currentText, lvl);
         onInput();
     }
 
@@ -365,7 +679,7 @@
 
         if (selection.rangeCount > 0) {
             const range = selection.getRangeAt(0);
-            const symbol = D.getRandomHighSeverityChar();
+            const symbol = getRandomHighSeverityChar();
 
             const textNode = document.createTextNode(symbol);
 
@@ -381,7 +695,7 @@
             onInput();
             showToast('Скрытый символ добавлен');
         } else {
-            const symbol = D.getRandomHighSeverityChar();
+            const symbol = getRandomHighSeverityChar();
             const textNode = document.createTextNode(symbol);
             editable.appendChild(textNode);
 
@@ -414,7 +728,7 @@
         }
 
         const range = selection.getRangeAt(0);
-        const selectedText = D.decode(range.toString());
+        const selectedText = decode(range.toString());
         const startNode = range.startContainer;
         const startOffset = range.startOffset;
 
@@ -424,7 +738,7 @@
         }
 
         const precedingSymbol = startNode.textContent[startOffset - 1];
-        const encoded = D.encode( precedingSymbol, selectedText );
+        const encoded = encode( precedingSymbol, selectedText );
 
 
         const extendedRange = document.createRange();
@@ -454,7 +768,7 @@
             return null;
         }
 
-        const decodedText = D.decode(selectedText);
+        const decodedText = decode(selectedText);
 
         range.deleteContents();
         const textNode = document.createTextNode(decodedText);
@@ -477,7 +791,6 @@
         editable.innerText = decodeURIComponent(text);
         onInput();
     });
-
 </script>
 </body>
 </html>

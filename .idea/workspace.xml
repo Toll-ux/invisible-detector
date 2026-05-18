@@ -9,12 +9,11 @@
   <component name="ChangeListManager">
     <list default="true" id="74c206e4-6096-4ded-90ba-e03bcb0870ba" name="Changes" comment="Все наработки">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/css/style.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/css/style_ultra_big.css" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/faq.html" beforeDir="false" afterPath="$PROJECT_DIR$/faq.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/how-it-works-about.html" beforeDir="false" afterPath="$PROJECT_DIR$/how-it-works-about.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/invisible-detector.html" beforeDir="false" afterPath="$PROJECT_DIR$/invisible-detector.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/detector.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/detector.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -58,6 +57,9 @@
     &quot;accountId&quot;: &quot;785c47a1-6aa2-4ba2-b80b-dcad7ab063d9&quot;
   }
 }</component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/js/detector.js" root0="FORCE_HIGHLIGHTING" />
+  </component>
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="CurrentFile" />
   </component>
@@ -133,7 +135,7 @@
       <workItem from="1778609294246" duration="1118000" />
       <workItem from="1778613137914" duration="4168000" />
       <workItem from="1778681805105" duration="941000" />
-      <workItem from="1778932423304" duration="6861000" />
+      <workItem from="1778932423304" duration="21048000" />
     </task>
     <task id="LOCAL-00001" summary="Все наработки">
       <option name="closed" value="true" />
